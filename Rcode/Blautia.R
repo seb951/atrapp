@@ -30,14 +30,6 @@ if(i%%50000==0) print(paste("Done match ",i, " of",nrow(annot)," ;The time is: "
 #A single hit...
 rle(sort(annot[,13]))
 
-
-
-
-
-
-
-
-
 ###Blautia genome hits ----
 
 setwd("/Users/jerry/Dropbox/CSBQ/shapiro")
@@ -54,11 +46,11 @@ par(mfrow = c(2,2))
 region.1.1t = blastn.out[blastn.out[,9]>1500000,9]
 region.1.2t = blastn.out[blastn.out[,9]>1500000,10]
 region.1.1 = region.1.1t[region.1.1t<1510000]
-region.1.1.o = region.1.1[order(region.1.1)]/1000
+region.1.1.o = region.1.1[order(region.1.1)]/1000000
 region.1.2 = region.1.2t[region.1.1t<1510000]
-region.1.2.o = region.1.2[order(region.1.1)]/1000
+region.1.2.o = region.1.2[order(region.1.1)]/1000000
 
-plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 1",xlab = "genomic position",yaxt ="n",ylab="",pch =20,cex =0.8)
+plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 1",xlab = "genomic position (Mb)",yaxt ="n",ylab="",pch =20,cex =0.8)
 points(region.1.2.o,1:length(region.1.1),col = "darkblue",pch =20,cex =0.8)
 segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col="darkgrey")
 
@@ -66,11 +58,11 @@ segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col
 region.1.1t = blastn.out[blastn.out[,9]>2300000,9]
 region.1.2t = blastn.out[blastn.out[,9]>2300000,10]
 region.1.1 = region.1.1t[region.1.1t<2365000]
-region.1.1.o = region.1.1[order(region.1.1)]/1000
+region.1.1.o = region.1.1[order(region.1.1)]/1000000
 region.1.2 = region.1.2t[region.1.1t<2365000]
-region.1.2.o = region.1.2[order(region.1.1)]/1000
+region.1.2.o = region.1.2[order(region.1.1)]/1000000
 
-plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 2",xlab = "genomic position",yaxt ="n",ylab="",pch =20,cex =0.8)
+plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 2",xlab = "genomic position (Mb)",yaxt ="n",ylab="",pch =20,cex =0.8)
 points(region.1.2.o,1:length(region.1.1),col = "darkblue",pch =20,cex =0.8)
 segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col="darkgrey")
 
@@ -78,11 +70,11 @@ segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col
 region.1.1t = blastn.out[blastn.out[,9]>2380000,9]
 region.1.2t = blastn.out[blastn.out[,9]>2380000,10]
 region.1.1 = region.1.1t[region.1.1t<2400000]
-region.1.1.o = region.1.1[order(region.1.1)]/1000
+region.1.1.o = region.1.1[order(region.1.1)]/1000000
 region.1.2 = region.1.2t[region.1.1t<2400000]
-region.1.2.o = region.1.2[order(region.1.1)]/1000
+region.1.2.o = region.1.2[order(region.1.1)]/1000000
 
-plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 3",xlab = "genomic position",yaxt ="n",ylab="",pch =20,cex =0.8)
+plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 3",xlab = "genomic position (Mb)",yaxt ="n",ylab="",pch =20,cex =0.8)
 points(region.1.2.o,1:length(region.1.1),col = "darkblue",pch =20,cex =0.8)
 segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col="darkgrey")
 
@@ -90,11 +82,11 @@ segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col
 region.1.1t = blastn.out[blastn.out[,9]>2600000,9]
 region.1.2t = blastn.out[blastn.out[,9]>2600000,10]
 region.1.1 = region.1.1t[region.1.1t<2640000]
-region.1.1.o = region.1.1[order(region.1.1)]/1000
+region.1.1.o = region.1.1[order(region.1.1)]/1000000
 region.1.2 = region.1.2t[region.1.1t<2640000]
-region.1.2.o = region.1.2[order(region.1.1)]/1000
+region.1.2.o = region.1.2[order(region.1.1)]/1000000
 
-plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 4",xlab = "genomic position",yaxt ="n",ylab="",pch =20,cex =0.8)
+plot(region.1.1.o,1:length(region.1.1),col = "darkred",main = "B. massiliensis Region 4",xlab = "genomic position (Mb)",yaxt ="n",ylab="",pch =20,cex =0.8)
 points(region.1.2.o,1:length(region.1.1),col = "darkblue",pch =20,cex =0.8)
 segments(region.1.1.o,1:length(region.1.1),region.1.2.o,1:length(region.1.1),col="darkgrey")
 
