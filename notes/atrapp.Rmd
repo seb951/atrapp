@@ -1,0 +1,192 @@
+---
+title: "ATRAPP transcriptomics"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_document:
+    highlight: tango
+    number_sections: T
+    theme: united
+    toc: yes
+    toc_depth: 3
+---
+
+
+#SAMSA2 
+• [Westreich *et al.* 2018. SAMSA2: standalone metatranscriptome analysis pipeline. BMC Bioinformatics](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5963165/)  
+• [github repo](https://github.com/transcript/samsa2)    
+![](../figures/samsa2.png){width=500px}  
+![](https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fs12859-018-2189-z/MediaObjects/12859_2018_2189_Fig1_HTML.gif){width=500px}  
+&nbsp;  
+  
+##RefSeq database
+• Non-redundant set of reference proteins (predicted+verified)
+• Contains species + protein name  
+• 27G, 68M sequences
+
+##Subsystems database
+• SEED is a categorization system which organizes gene functional categories into a hierarchy (4 levels)  
+• 7.6G, 2.9M sequences
+
+#Data
+• 2016 Lake Champlain metatranscriptomes (2 X 100bp Illumina HiSeq)  
+• 3 sampling site: PRM (15 samples), St1 (27 samples), St2 (23 samples)  
+• 130 fastq samples (79G of fastq.gz data)  
+
+#Running the pipeline
+• Compute Canada (Cedar)  
+• I ran the pipeline seperately for each sampling site   
+• 48 CPUs, ~15hr X 3 sampling sites  
+ 
+#Results:Examining the output
+
+##Merging
+```{r merging, warning = F, message = F, echo=F}  
+pe_assembly = read.table("../results/summary_stats/pe_assembly",stringsAsFactors = F)
+pe_assembly[,7] = sub("%","",pe_assembly[,7],fixed=T)
+pe_assembly[,7] = sub("(","",pe_assembly[,7],fixed=T)
+pe_assembly[,7] = sub(")","",pe_assembly[,7],fixed=T)
+hist(as.numeric(pe_assembly[,7]),xlab = "% merged",main= "merging PE")
+paste(signif(mean(as.numeric(pe_assembly[,7])),4)," % of sequences were trimmed",sep = "")
+```    
+
+##Trimmomatic
+```{r trimmo, warning = F, message = F, echo=F}  
+trimmed = read.table("../results/summary_stats/trimmed",stringsAsFactors = F)
+trimmed[,9] = sub("%","",trimmed[,9],fixed=T)
+trimmed[,9] = sub("(","",trimmed[,9],fixed=T)
+trimmed[,9] = sub(")","",trimmed[,9],fixed=T)
+hist(as.numeric(trimmed[,9]),xlab = "% dropped",main= "Trimmomatic")
+paste(signif(mean(as.numeric(trimmed[,9])),4)," % of sequences were dropped",sep = "")
+```  
+
+
+##Ribosomes
+```{r ribo, warning = F, message = F,echo=F}  
+ribosomes = read.table("../results/summary_stats/ribosomes",stringsAsFactors = F)
+ribosomes[,9] = sub("%","",ribosomes[,9],fixed=T)
+ribosomes[,9] = sub("(","",ribosomes[,9],fixed=T)
+ribosomes[,9] = sub(")","",ribosomes[,9],fixed=T)
+hist(as.numeric(ribosomes[,9]),xlab = "% ribosomes",main = "Ribosomes")
+paste(signif(mean(as.numeric(ribosomes[,9])),4)," % of sequences were ribosomes and removed",sep = "")
+
+print("Three samples had a high % of ribosomes removed")
+min50 = ribosomes[as.numeric(ribosomes[,9])>50,]
+min50_n = unlist(strsplit(min50[,1],"/"))[c(8,16,24)]
+min50[,1] = unlist(strsplit(min50_n,"_merg"))[c(1,3,5)]
+min50[,c(1,9)]
+```  
+
+##Annotations
+```{r annot, warning = F, message = F,echo=F}
+refseq = read.table("../results/summary_stats/refseq",stringsAsFactors = F)
+subsys = read.table("../results/summary_stats/subsys",stringsAsFactors = F)
+
+#refseq
+paste(min(refseq[,1]),": mininum nb sequence annotated (refseq)",sep = "")
+paste(max(refseq[,1]),": maximum nb sequence annotated (refseq)",sep = "")
+paste(signif(mean(refseq[,1]),4),": mean nb sequence annotated (refseq)",sep = "")
+
+#subsys
+paste(min(subsys[,1]),": mininum nb sequence annotated (subsys)",sep = "")
+paste(max(subsys[,1]),": maximum nb sequence annotated (subsys)",sep = "")
+paste(signif(mean(subsys[,1]),4),": mean nb sequence annotated (subsys)",sep = "")
+
+#Total Number of sequences (~20k sequences / megabyte of fastq.gz)
+nb_seq = 79*1000*20000 
+paste(nb_seq,": Total Number of sequence (rough average)",sep = "")
+
+#Total Number of sequences after cleaning (~20k sequences / megabyte of fastq.gz)
+#(remember that here a merged sequence is composed of the 2 PEs)
+nb_seq_clean = (nb_seq/2) * (mean(as.numeric(pe_assembly[,7]))/100) * (1-(mean(as.numeric(trimmed[,9]))/100)) * (1-(mean(as.numeric(ribosomes[,9]))/100))
+paste(signif(nb_seq_clean,2)," :Total Number of sequences after cleaning",sep = "")
+#What fraction of sequences are annotated 
+
+#refseq
+paste(signif(sum(refseq[,1])/(nb_seq_clean)*100,4),": percentage of sequences annotated (refseq)",sep = "")
+
+#subsys
+paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),": percentage of sequences annotated (subsys)",sep = "")
+```  
+
+##RefSeq annotations - species
+```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Champlain_barplot.png")
+```
+&nbsp;  
+&nbsp;  
+    
+• Here I only show *spp.* that are present >5% in at least one of the samples  
+• We can see the *Dolichospermum* bloom  
+• What is going in the St1 samples on Sept 15th?  
+• *Inediibacterium massiliense* and *Blautia massiliensis* are human fecal bacteria...  
+
+##Environmental data (N,P,Chl)
+```{r environmental data, warning = F, message = F,out.width=800,out.height=900,fig.align='center',echo=F}
+knitr::include_graphics("../figures/env_data.png")
+```
+&nbsp;  
+&nbsp;
+
+
+##*I. massiliense*  
+• All *I. massiliense* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (*WP_053955528.1*).  
+• *e-values* ~e-20 (because sequences are small + sequence identity ~90%)  
+
+###*I. massiliense* genome BLAST  
+• Download *I. massiliense* genome.    
+• BLASTn sequences (for now only 100k sequences) against it.    
+• 20160915_St1: hits to a single region of ~150bp (sequence identity ~90%, **6206** hits/100k sequences)     
+• 20160601_St1: hits to a single region of ~150bp (sequence identity ~90%, **31** hits/100k sequences)    
+```{r Imassiliense, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Imassiliense_genome_mapping.png")
+```
+&nbsp;    
+• Conclusion: sequences may NOT be *I. massiliense*, but something close and ~200X more abundant in these samples
+
+
+##*B. massiliensis*  
+• All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1).  
+• *e-values* ~e-10 (because sequences are small + %identity ~90%)
+
+###*B. massiliensis* genome BLAST
+• Download *B. massiliensis* genome (3.5 Mbp).  
+• BLAST all (for now 100k) sequences.  
+• Sequences BLAST to **several** region of the genome.  
+• 20160915_St1: *34801* hits/100k sequences to several genomic regions 
+• 20160601_St1: **188** hits/100k sequences
+
+```{r Bmassiliensis, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
+```
+
+• Same conclusion: may not be *B. massiliensis*, but something close and more abundant in these samples
+&nbsp;  
+
+##RefSeq annotations - gene names
+• Here I only show *spp.* that are present >1% in at least one of the samples.   
+```{r barplots_genes, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
+#running the barplot graph
+#system("./Rcode/barplots.R")
+knitr::include_graphics("../figures/Champlain_genes_barplot.png")
+```
+
+  
+##Subseq annotations - functions
+• Here I only show *spp.* that are present >2% in at least one of the samples.  
+```{r functions, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
+#running the barplot graph
+#system("./Rcode/barplots.R")
+knitr::include_graphics("../figures/Champlain_functions_barplot.png")
+```
+&nbsp;  
+
+
+
+
+&nbsp;  
+&nbsp;  
+&nbsp;  
+&nbsp;  
+
+
+

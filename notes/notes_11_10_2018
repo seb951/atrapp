@@ -1,0 +1,14 @@
+
+
+1.I analysed the ChampSt1 metatranscriptomics samples and made a barplot (sequences blasted with Diamond against refseq protein dataset).
+2.I see a nice rise and fall of hte Dolichospermum cyanobacteri.
+3.But 3 samples are weird (replicates of one time point) because they are composed essentially of Inediibacterium. 
+4.When I google this bacteria, it turns out to be from human fecal species. 
+5.To a lesser extent the Blautia, Streptococcus and Virgibacillus are very weird too (human fecal)
+6.If I look at the Inediibacterium, there essentially all blast to the same protein. 
+6b.Also this protein in not available on NCBI anymore...
+7.If I look at these sequences and blast them to an NCBI nr nucleotide database, they blast to Nostoc spp., a cyanobacteria
+8.But if I blast 100k sequences from these weird 20160915 samples, against the Inediibacterium genome, a get a lot of hits but all at the same place
+9.If I blast another sample against Inediibacterium, I get 200 times fewer hits.
+10. So in conclusion, there is ONE weird sequence in the 20160915, but it is very very abundant.
+10b. I don't really know what this sequence is....
