@@ -7,7 +7,7 @@ output:
     number_sections: T
     theme: united
     toc: yes
-    toc_depth: 3
+    toc_depth: 4
 ---
 
 
@@ -19,7 +19,7 @@ output:
 &nbsp;  
   
 ##RefSeq database
-• Non-redundant set of reference proteins (predicted+verified)
+• Non-redundant set of reference proteins (predicted+verified)  
 • Contains species + protein name  
 • 27G, 68M sequences
 
@@ -37,7 +37,7 @@ output:
 • I ran the pipeline seperately for each sampling site   
 • 48 CPUs, ~15hr X 3 sampling sites  
  
-#Results:Examining the output
+#Results
 
 ##Merging
 ```{r merging, warning = F, message = F, echo=F}  
@@ -46,7 +46,7 @@ pe_assembly[,7] = sub("%","",pe_assembly[,7],fixed=T)
 pe_assembly[,7] = sub("(","",pe_assembly[,7],fixed=T)
 pe_assembly[,7] = sub(")","",pe_assembly[,7],fixed=T)
 hist(as.numeric(pe_assembly[,7]),xlab = "% merged",main= "merging PE")
-paste(signif(mean(as.numeric(pe_assembly[,7])),4)," % of sequences were trimmed",sep = "")
+paste(signif(mean(as.numeric(pe_assembly[,7])),4)," % of sequences were merged",sep = "")
 ```    
 
 ##Trimmomatic
@@ -76,20 +76,20 @@ min50[,1] = unlist(strsplit(min50_n,"_merg"))[c(1,3,5)]
 min50[,c(1,9)]
 ```  
 
-##Annotations
+##Percentages annotated
 ```{r annot, warning = F, message = F,echo=F}
 refseq = read.table("../results/summary_stats/refseq",stringsAsFactors = F)
 subsys = read.table("../results/summary_stats/subsys",stringsAsFactors = F)
 
 #refseq
-paste(min(refseq[,1]),": mininum nb sequence annotated (refseq)",sep = "")
-paste(max(refseq[,1]),": maximum nb sequence annotated (refseq)",sep = "")
-paste(signif(mean(refseq[,1]),4),": mean nb sequence annotated (refseq)",sep = "")
+paste(min(refseq[,1]),": mininum nb sequence annotated per sample (refseq)",sep = "")
+paste(max(refseq[,1]),": maximum nb sequence annotated per sample (refseq)",sep = "")
+paste(signif(mean(refseq[,1]),4),": mean nb sequence annotated per sample (refseq)",sep = "")
 
 #subsys
-paste(min(subsys[,1]),": mininum nb sequence annotated (subsys)",sep = "")
-paste(max(subsys[,1]),": maximum nb sequence annotated (subsys)",sep = "")
-paste(signif(mean(subsys[,1]),4),": mean nb sequence annotated (subsys)",sep = "")
+paste(min(subsys[,1]),": mininum nb sequence annotated per sample (subsys)",sep = "")
+paste(max(subsys[,1]),": maximum nb sequence annotated per sample (subsys)",sep = "")
+paste(signif(mean(subsys[,1]),4),": mean nb sequence annotated per sample (subsys)",sep = "")
 
 #Total Number of sequences (~20k sequences / megabyte of fastq.gz)
 nb_seq = 79*1000*20000 
@@ -98,7 +98,7 @@ paste(nb_seq,": Total Number of sequence (rough average)",sep = "")
 #Total Number of sequences after cleaning (~20k sequences / megabyte of fastq.gz)
 #(remember that here a merged sequence is composed of the 2 PEs)
 nb_seq_clean = (nb_seq/2) * (mean(as.numeric(pe_assembly[,7]))/100) * (1-(mean(as.numeric(trimmed[,9]))/100)) * (1-(mean(as.numeric(ribosomes[,9]))/100))
-paste(signif(nb_seq_clean,2)," :Total Number of sequences after cleaning",sep = "")
+paste(signif(nb_seq_clean,2),": Total Number of sequences after cleaning",sep = "")
 #What fraction of sequences are annotated 
 
 #refseq
@@ -107,7 +107,9 @@ paste(signif(sum(refseq[,1])/(nb_seq_clean)*100,4),": percentage of sequences an
 #subsys
 paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),": percentage of sequences annotated (subsys)",sep = "")
 ```  
-
+• Note: I can't remember the *Diamond* threshold (e^10?, check on cedar)...    
+• Note: threshold may not be that important, given that we are interested in how *things* change in time...      
+  
 ##RefSeq annotations - species
 ```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
 knitr::include_graphics("../figures/Champlain_barplot.png")
@@ -120,7 +122,7 @@ knitr::include_graphics("../figures/Champlain_barplot.png")
 • What is going in the St1 samples on Sept 15th?  
 • *Inediibacterium massiliense* and *Blautia massiliensis* are human fecal bacteria...  
 
-##Environmental data (N,P,Chl)
+###Environmental data (N,P,Chl)
 ```{r environmental data, warning = F, message = F,out.width=800,out.height=900,fig.align='center',echo=F}
 knitr::include_graphics("../figures/env_data.png")
 ```
@@ -128,11 +130,11 @@ knitr::include_graphics("../figures/env_data.png")
 &nbsp;
 
 
-##*I. massiliense*  
-• All *I. massiliense* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (*WP_053955528.1*).  
+###*I. massiliense*  
+• All *I. massiliense* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (*WP_053955528.1*) in refseq.  
 • *e-values* ~e-20 (because sequences are small + sequence identity ~90%)  
 
-###*I. massiliense* genome BLAST  
+####*I. massiliense* genome BLAST  
 • Download *I. massiliense* genome.    
 • BLASTn sequences (for now only 100k sequences) against it.    
 • 20160915_St1: hits to a single region of ~150bp (sequence identity ~90%, **6206** hits/100k sequences)     
@@ -144,22 +146,22 @@ knitr::include_graphics("../figures/Imassiliense_genome_mapping.png")
 • Conclusion: sequences may NOT be *I. massiliense*, but something close and ~200X more abundant in these samples
 
 
-##*B. massiliensis*  
-• All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1).  
+###*B. massiliensis*  
+• All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1) in refseq.  
 • *e-values* ~e-10 (because sequences are small + %identity ~90%)
 
-###*B. massiliensis* genome BLAST
+####*B. massiliensis* genome BLAST
 • Download *B. massiliensis* genome (3.5 Mbp).  
 • BLAST all (for now 100k) sequences.  
-• Sequences BLAST to **several** region of the genome.  
-• 20160915_St1: *34801* hits/100k sequences to several genomic regions 
-• 20160601_St1: **188** hits/100k sequences
+• Sequences BLAST to **several** regions of the genome    
+• 20160915_St1: **34801** hits/100k sequences to several genomic regions   
+• 20160601_St1: **188** hits/100k sequences  
 
 ```{r Bmassiliensis, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
 knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 ```
 
-• Same conclusion: may not be *B. massiliensis*, but something close and more abundant in these samples
+• Same conclusion: may not be *B. massiliensis*, but something close and much more abundant in these samples (~200).  
 &nbsp;  
 
 ##RefSeq annotations - gene names
