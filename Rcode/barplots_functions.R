@@ -95,7 +95,7 @@ p1=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampSt1 sam
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
   geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_st1,stat="identity")+ scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+           data = all_spp_m_ggplot_top12_st1,stat="identity") + ylab("fraction of annotated functions") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #scale_fill_brewer(palette = "Blues") +
 
@@ -104,14 +104,14 @@ p2=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampSt2 sam
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
   geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_st2,stat="identity") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+           data = all_spp_m_ggplot_top12_st2,stat="identity") + ylab("fraction of annotated functions") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ###plot - PRM
 p3=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampPRM samples)",fill = "Taxonomy") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
   geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_PRM,stat="identity") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+           data = all_spp_m_ggplot_top12_PRM,stat="identity") + ylab("fraction of annotated functions") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #+ scale_fill_brewer(palette = "Blues")
 

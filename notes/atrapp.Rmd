@@ -48,7 +48,7 @@ pe_assembly[,7] = sub("(","",pe_assembly[,7],fixed=T)
 pe_assembly[,7] = sub(")","",pe_assembly[,7],fixed=T)
 hist(as.numeric(pe_assembly[,7]),xlab = "% merged",main= "merging PE")
 paste(signif(mean(as.numeric(pe_assembly[,7])),4)," % of sequences were merged",sep = "")
-paste("Does merging make sense?")
+paste("Does merging make sense? Depending on size selection of amplicons sequenced (should check)")
 ```    
 
 ##Trimmomatic
@@ -98,7 +98,7 @@ nb_seq = 79*1000*20000
 paste(nb_seq,": Total Number of sequence (rough average)",sep = "")
 
 #Total Number of sequences after cleaning (~20k sequences / megabyte of fastq.gz)
-#(remember that here a merged sequence is composed of the 2 PEs)
+#remember that here a merged sequence is composed of the 2 PEs
 nb_seq_clean = (nb_seq/2) * (mean(as.numeric(pe_assembly[,7]))/100) * (1-(mean(as.numeric(trimmed[,9]))/100)) * (1-(mean(as.numeric(ribosomes[,9]))/100))
 paste(signif(nb_seq_clean,2),": Total Number of sequences after cleaning",sep = "")
 #What fraction of sequences are annotated 
@@ -114,7 +114,7 @@ paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences 
   
 ##RefSeq annotations - species
 ```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
-knitr::include_graphics("../figures/Champlain_barplot.png")
+knitr::include_graphics("../figures/Champlain_species_barplot.png")
 ```
 &nbsp;  
 &nbsp;  
@@ -125,6 +125,7 @@ knitr::include_graphics("../figures/Champlain_barplot.png")
 • *Inediibacterium massiliense* and *Blautia massiliensis* are human fecal bacteria...  
 
 ###Environmental data (N,P,Chl)
+• Huge peak in values on Sept 9th, 2016.  
 ```{r environmental data, warning = F, message = F,out.width=800,out.height=900,fig.align='center',echo=F}
 knitr::include_graphics("../figures/env_data.png")
 ```
@@ -184,8 +185,28 @@ knitr::include_graphics("../figures/Champlain_functions_barplot.png")
 ```
 &nbsp;  
 
+#To do (lab meeting Oct 19th):
+• What is *sp. PCC*?  
 
+• Check the *mycrocystis* in the database and in the list of annotated genes?  
 
+• Get a *mycrocystis* protein set (or predict it from genome): talk to Olga?  
+
+• Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)?  
+
+• Check sequence similarity bwtn the 2 fecal species proteins  
+
+• Theoretically, you should get a could corellation bwtn annotation to Rubisco + Photosystem and chlorophyll content. I should verify this (simple correlation or can also perfom a more complex RDA)
+
+• Check annotatin at the other three functionnal levels (right know, I only look at the first one...)  
+
+• [eggnog](http://eggnogdb.embl.de/) annotation
+
+• I can do a PCA to look at sample clustering based on communities
+
+• I can do an RDA to see how certain samples may correlate with environmental data
+
+• Look at alpha + beta divervisty
 
 &nbsp;  
 &nbsp;  
