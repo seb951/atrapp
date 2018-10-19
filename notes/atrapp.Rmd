@@ -28,7 +28,8 @@ output:
 • 7.6G, 2.9M sequences
 
 #Data
-• 2016 Lake Champlain metatranscriptomes (2 X 100bp Illumina HiSeq)  
+• 2016 Lake Champlain algal bloom samples  
+• Metatranscriptomes (2 X 100bp Illumina HiSeq)  
 • 3 sampling site: PRM (15 samples), St1 (27 samples), St2 (23 samples)  
 • 130 fastq samples (79G of fastq.gz data)  
 
@@ -47,6 +48,7 @@ pe_assembly[,7] = sub("(","",pe_assembly[,7],fixed=T)
 pe_assembly[,7] = sub(")","",pe_assembly[,7],fixed=T)
 hist(as.numeric(pe_assembly[,7]),xlab = "% merged",main= "merging PE")
 paste(signif(mean(as.numeric(pe_assembly[,7])),4)," % of sequences were merged",sep = "")
+paste("Does merging make sense?")
 ```    
 
 ##Trimmomatic
@@ -102,13 +104,13 @@ paste(signif(nb_seq_clean,2),": Total Number of sequences after cleaning",sep = 
 #What fraction of sequences are annotated 
 
 #refseq
-paste(signif(sum(refseq[,1])/(nb_seq_clean)*100,4),": percentage of sequences annotated (refseq)",sep = "")
+paste(signif(sum(refseq[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (refseq)",sep = "")
 
 #subsys
-paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),": percentage of sequences annotated (subsys)",sep = "")
+paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (subsys)",sep = "")
 ```  
 • Note: I can't remember the *Diamond* threshold (e^10?, check on cedar)...    
-• Note: threshold may not be that important, given that we are interested in how *things* change in time...      
+• Note: threshold may not be that important, given that we are more interested in how *things* change over time...      
   
 ##RefSeq annotations - species
 ```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
@@ -147,12 +149,12 @@ knitr::include_graphics("../figures/Imassiliense_genome_mapping.png")
 
 
 ###*B. massiliensis*  
-• All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1) in refseq.  
+• All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1) in refseq  
 • *e-values* ~e-10 (because sequences are small + %identity ~90%)
 
 ####*B. massiliensis* genome BLAST
-• Download *B. massiliensis* genome (3.5 Mbp).  
-• BLAST all (for now 100k) sequences.  
+• Download *B. massiliensis* genome (3.5 Mbp)  
+•  BLASTn sequences (for now only 100k sequences) against it.  
 • Sequences BLAST to **several** regions of the genome    
 • 20160915_St1: **34801** hits/100k sequences to several genomic regions   
 • 20160601_St1: **188** hits/100k sequences  
@@ -161,7 +163,7 @@ knitr::include_graphics("../figures/Imassiliense_genome_mapping.png")
 knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 ```
 
-• Same conclusion: may not be *B. massiliensis*, but something close and much more abundant in these samples (~200).  
+• Same conclusion: may not be *B. massiliensis*, but something close and much more abundant in these samples (~200X).  
 &nbsp;  
 
 ##RefSeq annotations - gene names
