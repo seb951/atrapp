@@ -1,6 +1,6 @@
 "percent" "count" "hier1" "hier2" "hier3" "hier4"
 "15.9236654726" "36005.0" "photosystem II protein D1 (PsbA)" "Photosystem_II" "Photosynthesis" "Electron transport and photophosphorylation"
-"6.16071823449" "13930.0" "NO HIERARCHY" "NO HIERARCHY" "NO HIERARCHY" "NO HIERARCHY"
+"6.16071823449" "13930.0" "NO HIERARCHY" NA NA NA
 "2.16974039184" "4906.0" "photosystem II protein D2 (PsbD)" "Photosystem_II" "Photosynthesis" "Electron transport and photophosphorylation"
 "1.60364424395" "3626.0" "Ribulose bisphosphate carboxylase large chain (EC 4.1.1.39)" "CO2_uptake,_carboxysome" "Carbohydrates" "CO2 fixation"
 "1.23258590951" "2787.0" "Photosystem II CP43 protein (PsbC)" "Photosystem_II" "Photosynthesis" "Electron transport and photophosphorylation"

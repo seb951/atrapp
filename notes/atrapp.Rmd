@@ -167,6 +167,15 @@ knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 • Same conclusion: may not be *B. massiliensis*, but something close and much more abundant in these samples (~200X).  
 &nbsp;  
 
+###Are the *B. massiliensis* & *I. massiliense* genomic regions the same?
+`samtools faidx Inediibacterium_massiliense_genome.fasta`
+`samtools faidx Inediibacterium_massiliense_genome.fasta NZ_LN876587.1:1637150-1637400 >I_massiliense_contig1.fasta`
+
+`samtools faidx Inediibacterium_massiliense_genome.fasta`
+`samtools faidx Blautia_massiliensis_GD8_NZ_LN913006_WGS.fasta NZ_LN913006.1:2359000-2360200 >B_massiliensis_contig1.fasta`
+
+• Yes, if we align the genomics regions for which the sequences matched to (with MUSCLE), the are almost the same (~99% identity of ~150bp)
+
 ##RefSeq annotations - gene names
 • Here I only show *spp.* that are present >1% in at least one of the samples.   
 ```{r barplots_genes, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
@@ -185,16 +194,27 @@ knitr::include_graphics("../figures/Champlain_functions_barplot.png")
 ```
 &nbsp;  
 
+##Principal Coordinate Analyses
+• On the 25 most abundant species (note that this is preliminary as names will change to to a bug fis in Samsa2: bug explains differences btwn PRM and others...)
+```{r pcoa, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Champlain_pcoa.pdf")
+```
+
+
 #To do (lab meeting Oct 19th):
 • What is *sp. PCC*?  
+**bug in the SAMSA2 python annotation scripts: IN PROGRESS**
 
-• Check the *mycrocystis* in the database and in the list of annotated genes?  
+• Check the *Microcystis* in the database and in the list of annotated genes?  
+• Get a *Microcystis* protein set (or predict it from genome): talk to Olga?  
+**There are 67425 Microcystis gene products (63.5k are for M. aeruginosa)**
 
-• Get a *mycrocystis* protein set (or predict it from genome): talk to Olga?  
-
-• Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)?  
+• Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)? **done. Refiltered samples... oct 30th**
+**Didn't change results very much**
 
 • Check sequence similarity bwtn the 2 fecal species proteins  
+**done. There are almost the same...**
+
 
 • Theoretically, you should get a could corellation bwtn annotation to Rubisco + Photosystem and chlorophyll content. I should verify this (simple correlation or can also perfom a more complex RDA)
 
@@ -203,6 +223,8 @@ knitr::include_graphics("../figures/Champlain_functions_barplot.png")
 • [eggnog](http://eggnogdb.embl.de/) annotation
 
 • I can do a PCA to look at sample clustering based on communities
+**In Progress**  
+
 
 • I can do an RDA to see how certain samples may correlate with environmental data
 

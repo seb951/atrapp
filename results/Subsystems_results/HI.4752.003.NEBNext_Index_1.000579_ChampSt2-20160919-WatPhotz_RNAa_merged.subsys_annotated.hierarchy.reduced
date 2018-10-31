@@ -1566,7 +1566,7 @@
 0.00170954364953	7.0	CRISPR-associated protein Cas1	CRISPRs	DNA Metabolism	CRISPs
 0.00170954364953	7.0	Fumarylacetoacetate hydrolase family protein	Pterin_metabolism_3	Cofactors, Vitamins, Prosthetic Groups, Pigments	Folate and pterines
 0.00170954364953	7.0	Branched-chain alpha-keto acid dehydrogenase, E1 component, alpha subunit (EC 1.2.4.4)	Dehydrogenase_complexes	Carbohydrates	Central carbohydrate metabolism
-0.00170954364953	7.0	Alpha-glucosides-binding periplasmic protein AglE precursor	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&
+0.00170954364953	7.0	Alpha-glucosides-binding periplasmic protein AglE precursor	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&#945;-Glucosides	Membrane Transport	ABC transporters
 0.00170954364953	7.0	Cytochrome c551 peroxidase (EC 1.11.1.5)	Protection_from_Reactive_Oxygen_Species	Stress Response	Oxidative stress
 0.00170954364953	7.0	Alkanesulfonates-binding protein	Alkanesulfonate_assimilation	Sulfur Metabolism	Organic sulfur assimilation
 0.00170954364953	7.0	SSU ribosomal protein S28e	Ribosome_SSU_eukaryotic_and_archaeal	Protein Metabolism	Protein biosynthesis
@@ -2464,7 +2464,7 @@
 0.000244220521362	1.0	S1 RNA binding domain protein	Cell_division-ribosomal_stress_proteins_cluster		Clustering-based subsystems	
 0.000244220521362	1.0	MSHA biogenesis protein MshQ	Mannose-sensitive_hemagglutinin_type_4_pilus	Membrane Transport	Protein and nucleoprotein secretion system, Type IV
 0.000244220521362	1.0	Indolepyruvate oxidoreductase subunit IorA (EC 1.2.7.8)	Aromatic_amino_acid_interconversions_with_aryl_acids	Amino Acids and Derivatives	Aromatic amino acids and derivatives
-0.000244220521362	1.0	Alpha-glucosidase AglA	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&
+0.000244220521362	1.0	Alpha-glucosidase AglA	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&#945;-Glucosides	Membrane Transport	ABC transporters
 0.000244220521362	1.0	Cell division protein BolA	Bacterial_Cell_Division		Clustering-based subsystems	
 0.000244220521362	1.0	Biotin synthesis protein bioC	Biotin_biosynthesis	Cofactors, Vitamins, Prosthetic Groups, Pigments	Biotin
 0.000244220521362	1.0	GTP cyclohydrolase I (EC 3.5.4.16) type 2	Queuosine-Archaeosine_Biosynthesis	RNA Metabolism	RNA processing and modification
@@ -2712,7 +2712,7 @@
 0.000244220521362	1.0	Hypothetical protein with distant similarity to Ribonuclease E inhibitor RraA (former MenG)	Formaldehyde_assimilation:_Ribulose_monophosphate_pathway	Carbohydrates	One-carbon Metabolism
 0.000244220521362	1.0	FAD-dependent pyridine nucleotide-disulphide oxidoreductase, GBAA2537 homolog	CBSS-261594.1.peg.2640		Clustering-based subsystems	
 0.000244220521362	1.0	Glycine oxidase ThiO (EC 1.4.3.19)	Thiamin_biosynthesis		Cofactors, Vitamins, Prosthetic Groups, Pigments	
-0.000244220521362	1.0	Alpha-glucoside transport ATP-binding protein AglK	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&
+0.000244220521362	1.0	Alpha-glucoside transport ATP-binding protein AglK	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&#945;-Glucosides	Membrane Transport	ABC transporters
 0.000244220521362	1.0	DNA-directed RNA polymerase II 45 kDa polypeptide (EC 2.7.7.6)	RNA_polymerase_II	RNA Metabolism	Transcription
 0.000244220521362	1.0	ABC transporter protein IroC	Salmochelin-mediated_Iron_Acquisition	Iron acquisition and metabolism	Siderophores
 0.000244220521362	1.0	CO dehydrogenase accessory protein CooC (nickel insertion)	Carbon_monoxide_induced_hydrogenase		Respiration	

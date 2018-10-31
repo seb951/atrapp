@@ -1,5 +1,5 @@
 15.9236654726	36005.0	photosystem II protein D1 (PsbA)	Photosystem_II	Photosynthesis	Electron transport and photophosphorylation
-6.16071823449	13930.0	NO HIERARCHY	NO HIERARCHY	NO HIERARCHY	NO HIERARCHY
+6.16071823449	13930.0	NO HIERARCHY
 2.16974039184	4906.0	photosystem II protein D2 (PsbD)	Photosystem_II	Photosynthesis	Electron transport and photophosphorylation
 1.60364424395	3626.0	Ribulose bisphosphate carboxylase large chain (EC 4.1.1.39)	CO2_uptake,_carboxysome	Carbohydrates	CO2 fixation
 1.23258590951	2787.0	Photosystem II CP43 protein (PsbC)	Photosystem_II	Photosynthesis	Electron transport and photophosphorylation
@@ -1151,7 +1151,7 @@
 0.00707620184865	16.0	Cell division transporter, ATP-binding protein FtsE (TC 3.A.5.1.1)	Bacterial_Cell_Division		Clustering-based subsystems	
 0.00707620184866	16.0	Hypothetical protein YggS, proline synthase co-transcribed bacterial homolog PROSC	A_Hypothetical_Protein_Related_to_Proline_Metabolism	Amino Acids and Derivatives	Proline and 4-hydroxyproline
 0.00707620184866	16.0	Methylcrotonyl-CoA carboxylase carboxyl transferase subunit (EC 6.4.1.4)	Leucine_Degradation_and_HMG-CoA_Metabolism	Amino Acids and Derivatives	Branched-chain amino acids
-0.00707620184866	16.0	Sigma-fimbriae tip adhesin	&
+0.00707620184866	16.0	Sigma-fimbriae tip adhesin	&#963;-Fimbriae	Virulence	Fimbriae of the Chaperone/Usher Assembly Pathway
 0.00707620184866	16.0	Gamma-tocopherol C-methyltransferase (EC 2.1.1.95)	Tocopherol_Biosynthesis	Cofactors, Vitamins, Prosthetic Groups, Pigments	Quinone cofactors
 0.00707620184866	16.0	Dipeptide transport ATP-binding protein DppD (TC 3.A.1.5.2)	ABC_transporter_dipeptide_(TC_3.A.1.5.2)	Membrane Transport	ABC transporters
 0.00707620184866	16.0	TPR domain protein, putative component of TonB system	Ton_and_Tol_transport_systems		Membrane Transport	
@@ -1328,7 +1328,7 @@
 0.00530715138649	12.0	NAD-dependent formate dehydrogenase beta subunit	Formate_hydrogenase		Respiration	
 0.00530715138649	12.0	Adenosylcobinamide-phosphate synthase	Coenzyme_B12_biosynthesis	Cofactors, Vitamins, Prosthetic Groups, Pigments	Tetrapyrroles
 0.00530715138649	12.0	RNA polymerase sigma factor	Regulation_of_Oxidative_Stress_Response	Stress Response	Oxidative stress
-0.00530715138649	12.0	Alpha-glucosides-binding periplasmic protein AglE precursor	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&
+0.00530715138649	12.0	Alpha-glucosides-binding periplasmic protein AglE precursor	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&#945;-Glucosides	Membrane Transport	ABC transporters
 0.00530715138649	12.0	ATP-dependent hsl protease ATP-binding subunit HslU	Proteolysis_in_bacteria,_ATP-dependent	Protein Metabolism	Protein degradation
 0.00530715138649	12.0	Flagellar basal-body rod protein FlgF	Flagellum	Motility and Chemotaxis	Flagellar motility in Prokaryota
 0.00530715138649	12.0	Ferredoxin, 2Fe-2S	Soluble_cytochromes_and_functionally_related_electron_carriers		Respiration	
@@ -1484,7 +1484,7 @@
 0.00398036353987	9.0	Cob(I)alamin adenosyltransferase PduO (EC 2.5.1.17)	Coenzyme_B12_biosynthesis	Cofactors, Vitamins, Prosthetic Groups, Pigments	Tetrapyrroles
 0.00398036353987	9.0	Protein of unknown function Smg	Conserved_gene_cluster_associated_with_Met-tRNA_formyltransferase		Clustering-based subsystems	
 0.00398036353987	9.0	Cytochrome c551 peroxidase (EC 1.11.1.5)	Protection_from_Reactive_Oxygen_Species	Stress Response	Oxidative stress
-0.00398036353987	9.0	Sigma-fimbriae chaperone protein	&
+0.00398036353987	9.0	Sigma-fimbriae chaperone protein	&#963;-Fimbriae	Virulence	Fimbriae of the Chaperone/Usher Assembly Pathway
 0.00398036353987	9.0	HigA protein (antitoxin to HigB)	Toxin-antitoxin_systems_(other_than_RelBE_and_MazEF)	Regulation and Cell signaling	Programmed Cell Death and Toxin-antitoxin Systems
 0.00398036353987	9.0	Succinyl-CoA:3-ketoacid-coenzyme A transferase subunit B (EC 2.8.3.5)	Catechol_branch_of_beta-ketoadipate_pathway	Metabolism of Aromatic Compounds	Metabolism of central aromatic intermediates
 0.00398036353987	9.0	Phage endolysin	Phage_entry_and_exit	Phages, Prophages, Transposable elements	Phage Host Interactions
@@ -2610,7 +2610,7 @@
 0.000442262615541	1.0	(R)-2-hydroxyacid dehydrogenase, similar to L-sulfolactate dehydrogenase (EC 1.1.1.272)	Glyoxylate_bypass	Carbohydrates	Central carbohydrate metabolism
 0.000442262615541	1.0	putative Cytochrome bd2, subunit II	Terminal_cytochrome_d_ubiquinol_oxidases	Respiration	Electron accepting reactions
 0.000442262615541	1.0	Type IV secretion system protein VirD4	Type_4_secretion_and_conjugative_transfer	Virulence	Type III, Type IV, Type VI, ESAT secretion systems
-0.000442262615541	1.0	ABC alpha-glucoside transporter, inner membrane subunit AglF	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&
+0.000442262615541	1.0	ABC alpha-glucoside transporter, inner membrane subunit AglF	Periplasmic-Binding-Protein-Dependent_Transport_System_for_&#945;-Glucosides	Membrane Transport	ABC transporters
 0.000442262615541	1.0	Alpha-amylase (Neopullulanase) SusA (EC 3.2.1.135)	Cellulosome	Carbohydrates	Polysaccharides
 0.000442262615541	1.0	Formate efflux transporter (TC 2.A.44 family)	Fermentations:_Mixed_acid	Carbohydrates	Fermentation
 0.000442262615541	1.0	Succinylglutamate desuccinylase (EC 3.5.1.96)	Arginine_and_Ornithine_Degradation	Amino Acids and Derivatives	Arginine; urea cycle, polyamines
