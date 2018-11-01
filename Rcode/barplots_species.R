@@ -17,7 +17,7 @@ for(i in 1:nrow(all.tsv))
 {
 refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
 all_spp = c(all_spp,refseq.all[1:10,3]) #keep only top 10
-all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>5,3]) #keep only the ones that are at more than 5%
+all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>3,3]) #keep only the ones that are at more than 5%
 }
 all_spp_five_m = unique(sort(all_spp_five))
 all_spp_m = data.frame(unique(sort(all_spp)),stringsAsFactors = F)
@@ -46,7 +46,7 @@ colnames(all_spp_m_ggplot) = c("fraction","species","sample")
 #top12
 all_spp_m_ggplot_top12 = NULL
 
-for(i in 1:12)
+for(i in 1:length(all_spp_five_m))
 {
   all_spp_m_ggplot_top12 = rbind(all_spp_m_ggplot_top12,all_spp_m_ggplot[all_spp_m_ggplot[,2] == all_spp_five_m[i],])
 }
@@ -58,31 +58,29 @@ all_spp_m_ggplot_top12_st1 = all_spp_m_ggplot_top12[regexpr("St1",all_spp_m_ggpl
 all_spp_m_ggplot_top12_st2 = all_spp_m_ggplot_top12[regexpr("St2",all_spp_m_ggplot_top12[,3])>0,]
 all_spp_m_ggplot_top12_PRM = all_spp_m_ggplot_top12[regexpr("PRM",all_spp_m_ggplot_top12[,3])>0,]
 
-
+x = colorRampPalette(brewer.pal(12,"Paired"))
 ###plot - St1
 p1=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampSt1 samples)",fill = "Taxonomy") +
   theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
+  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_st1,stat="identity") + ylab("fraction of annotated species") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+           data = all_spp_m_ggplot_top12_st1,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #scale_fill_brewer(palette = "Blues") +
 
 ###plot - St2
 p2=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampSt2 samples)",fill = "Taxonomy") +
   theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
+  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_st2,stat="identity") + ylab("fraction of annotated species")  + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+           data = all_spp_m_ggplot_top12_st2,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 ###plot - PRM
 p3=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampPRM samples)",fill = "Taxonomy") +
   theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
+  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) + 
   geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_PRM,stat="identity") + ylab("fraction of annotated species") + scale_fill_brewer(palette = "Set3") + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-#+ scale_fill_brewer(palette = "Blues")
+           data = all_spp_m_ggplot_top12_PRM,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #all three (dimensions in inches)
 dev.new(width=14, height=15,noRStudioGD = TRUE)

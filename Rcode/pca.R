@@ -15,15 +15,12 @@ system("ls -1 results/org_results/*RefSeq_annot_organism.tsv >all.tsv")
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
 all_spp = NULL
 all_spp_shortnames = NULL
-all_spp_five = NULL
 #first loop is to subset the major species (over 1%)
 for(i in 1:nrow(all.tsv))
 {
   refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
-  all_spp = c(all_spp,refseq.all[1:100,3]) #keep only top 10
-  all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>1,3]) #keep only the ones that are at more than 1% in at least one sample
+  all_spp = c(all_spp,refseq.all[refseq.all[,1]>1,3]) #keep only top 1%
 }
-all_spp_five_m = unique(sort(all_spp_five))
 all_spp_m = data.frame(unique(sort(all_spp)),stringsAsFactors = F)
 
 for(i in 1:nrow(all.tsv))
@@ -43,9 +40,6 @@ for(i in 1:nrow(all.tsv))
   colnames(all_spp_m)[1] = "species" 
   all_spp_shortnames = c(all_spp_shortnames,rep(paste(date,location,replicate,sep = "_"),nrow(all_spp_m)))
 }
-
-#standardization using hellinger transform
-#asv.filt.abundants.norm.hel <-decostand(asv.filt.abundants.norm, "hel")
 
 #PERMANOVA
 #The only assumption of PERMANOVA is independence of samples (I think, but could be wrong here)
@@ -86,7 +80,7 @@ colnames(pcoa.plot) = c("axis1","axis2","Sampling","date")
 
 
 p1=ggplot(pcoa.plot,aes(axis1,axis2)) +
-  labs(title = "Lake Champlain - PcoA (temp. sps, present at >1%)",shape = "Sampling Site", colour = "Sampling Date") +
+  labs(title = "Lake Champlain - PcoA (temp. 66 sps present at >=1%)",shape = "Sampling Site", colour = "Sampling Date") +
   geom_point(aes(colour=as.factor(date),shape = factor(Sampling)),stroke=3) +
   scale_shape(solid = F) +
   ylab(paste("Axis 2 (PVE:",axis.1.2[2],"%)",sep = "")) + xlab(paste("Axis 1 (PVE:",axis.1.2[1],"%)",sep = "")) +
