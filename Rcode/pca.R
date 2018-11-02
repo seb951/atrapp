@@ -80,9 +80,9 @@ colnames(pcoa.plot) = c("axis1","axis2","Sampling","date")
 
 
 p1=ggplot(pcoa.plot,aes(axis1,axis2)) +
-  labs(title = "Lake Champlain - PcoA (temp. 66 sps present at >=1%)",shape = "Sampling Site", colour = "Sampling Date") +
-  geom_point(aes(colour=as.factor(date),shape = factor(Sampling)),stroke=3) +
-  scale_shape(solid = F) +
+  labs(title = "Lake Champlain - PcoA (temp. 66 sps present at >1%)",shape = "Sampling Site", colour = "Sampling Date") +
+  geom_point(aes(colour=as.factor(date),shape = factor(Sampling))) +
+  scale_shape(solid = T) +
   ylab(paste("Axis 2 (PVE:",axis.1.2[2],"%)",sep = "")) + xlab(paste("Axis 1 (PVE:",axis.1.2[1],"%)",sep = "")) +
   scale_color_brewer(palette= "Spectral")
 

@@ -5,12 +5,13 @@ setwd("/Users/jerry/Dropbox/CSBQ/shapiro")
 #packages
 library(ggplot2)
 library(gridExtra)
-
+library(RColorBrewer)
 
 system("ls -1 results/org_results/*RefSeq_annot_organism.tsv >all.tsv")
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
 all_spp = NULL
-all_spp_shortnames = NULL
+samples = NULL
+locations = NULL
 all_spp_five = NULL
 #first loop is to subset the major species (over 5%)
 for(i in 1:nrow(all.tsv))
@@ -35,17 +36,19 @@ for(i in 1:nrow(all.tsv))
   replicate = substring(strsplit(all.tsv[i,1],split = "WatPhotz_")[[1]][2],4,4)
   location = substring(strsplit(all.tsv[i,1],split = "Champ")[[1]][2],1,3)
   date = strsplit(all.tsv[i,1],split = "-")[[1]][2]
-  all_spp_shortnames = c(all_spp_shortnames,rep(paste(date,location,replicate,sep = "_"),nrow(all_spp_m)))
+  samples = c(samples,rep(paste(date,replicate,sep = "_"),nrow(all_spp_m)))
+  locations = c(locations,rep(location,nrow(all_spp_m)))
 }
 all_spp_m_ggplot = data.frame(unlist(all_spp_m[,2:66]))
 temp = all_spp_m_ggplot
 all_spp_m_ggplot[,2] = rep(all_spp_m[,1],65)
-all_spp_m_ggplot[,3] = all_spp_shortnames
-colnames(all_spp_m_ggplot) = c("fraction","species","sample")
+all_spp_m_ggplot[,3] = samples
+all_spp_m_ggplot[,4] = locations
+all_spp_m_ggplot[,5] = factor(all_spp_m_ggplot$locations, levels=c('St1','St2','PRM'))
+colnames(all_spp_m_ggplot) = c("fraction","species","samples","locations","locations_f")
 
-#top12
+#top percentage according to "all_spp_five_m" vector
 all_spp_m_ggplot_top12 = NULL
-
 for(i in 1:length(all_spp_five_m))
 {
   all_spp_m_ggplot_top12 = rbind(all_spp_m_ggplot_top12,all_spp_m_ggplot[all_spp_m_ggplot[,2] == all_spp_five_m[i],])
@@ -53,39 +56,25 @@ for(i in 1:length(all_spp_five_m))
 #these are percentage values
 all_spp_m_ggplot_top12[,1] = all_spp_m_ggplot_top12[,1]/100
 
-#split into 3 locations.
-all_spp_m_ggplot_top12_st1 = all_spp_m_ggplot_top12[regexpr("St1",all_spp_m_ggplot_top12[,3])>0,]
-all_spp_m_ggplot_top12_st2 = all_spp_m_ggplot_top12[regexpr("St2",all_spp_m_ggplot_top12[,3])>0,]
-all_spp_m_ggplot_top12_PRM = all_spp_m_ggplot_top12[regexpr("PRM",all_spp_m_ggplot_top12[,3])>0,]
-
+#plot
 x = colorRampPalette(brewer.pal(12,"Paired"))
-###plot - St1
-p1=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampSt1 samples)",fill = "Taxonomy") +
+p1=ggplot() + labs(title = "Lake Champlain - all annotated species",fill = "Taxonomy") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
-  geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_st1,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-#scale_fill_brewer(palette = "Blues") +
-
-###plot - St2
-p2=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampSt2 samples)",fill = "Taxonomy") +
-  theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
-  geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_st2,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-###plot - PRM
-p3=ggplot() + labs(title = "Lake Champlain - all annotated species (ChampPRM samples)",fill = "Taxonomy") +
-  theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) + 
-  geom_bar(aes(y = fraction, x = sample, fill = species),
-           data = all_spp_m_ggplot_top12_PRM,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  geom_bar(aes(y = fraction, x = samples, fill = species),
+           data = all_spp_m_ggplot_top12,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 #all three (dimensions in inches)
-dev.new(width=14, height=15,noRStudioGD = TRUE)
+dev.new(width=10, height=7,noRStudioGD = TRUE)
 #pdf('figures/Champlain_barplot.pdf',width=14, height=15)
-grid.arrange(p1,p2,p3, ncol = 1)
+p1 + facet_grid(rows=vars(locations_f))
 dev.print(device=pdf, "figures/Champlain_species_barplot.pdf", onefile=FALSE)
 dev.off()
+
+
+
+
+####sandbox
+
+
 
