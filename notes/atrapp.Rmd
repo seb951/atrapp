@@ -114,7 +114,7 @@ paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences 
   
 ##RefSeq annotations - species
 ```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
-knitr::include_graphics("../figures/Champlain_species_barplot.png")
+knitr::include_graphics("../figures/Champlain_species_barplot.pdf")
 ```
 &nbsp;  
 &nbsp;  
@@ -181,7 +181,7 @@ knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 ```{r barplots_genes, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
 #running the barplot graph
 #system("./Rcode/barplots.R")
-knitr::include_graphics("../figures/Champlain_genes_barplot.png")
+knitr::include_graphics("../figures/Champlain_genes_barplot.pdf")
 ```
 
   
@@ -190,7 +190,7 @@ knitr::include_graphics("../figures/Champlain_genes_barplot.png")
 ```{r functions, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
 #running the barplot graph
 #system("./Rcode/barplots.R")
-knitr::include_graphics("../figures/Champlain_functions_barplot.png")
+knitr::include_graphics("../figures/Champlain_functions_barplot_level4.pdf")
 ```
 &nbsp;  
 
@@ -223,7 +223,8 @@ knitr::include_graphics("../figures/Champlain_pcoa.pdf")
 • [eggnog](http://eggnogdb.embl.de/) annotation
 
 • I can do a PCA to look at sample clustering based on communities
-**In Progress**  
+**Done using phyloseq (Sept 15th samples were removed because they skew the ordinations so much...)**  
+
 
 
 • I can do an RDA to see how certain samples may correlate with environmental data
