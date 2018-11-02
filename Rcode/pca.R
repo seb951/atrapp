@@ -4,17 +4,21 @@
 setwd("/Users/jerry/Dropbox/CSBQ/shapiro")
  
 #packages
-library(pals)
+#library(pals)
 library(ggplot2)
-library(gridExtra)
-library(vegan)
-library(ape)
-library(lubridate)
+#library(gridExtra)
+#library(vegan)
+#library(ape)
+#library(lubridate)
+library(phyloseq)
 
 system("ls -1 results/org_results/*RefSeq_annot_organism.tsv >all.tsv")
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
 all_spp = NULL
-all_spp_shortnames = NULL
+dates =  NULL
+replicates = NULL
+locations = NULL
+full = NULL
 #first loop is to subset the major species (over 1%)
 for(i in 1:nrow(all.tsv))
 {
@@ -32,65 +36,56 @@ for(i in 1:nrow(all.tsv))
     if(length(temp) == 1) all_spp_m[j,i+1] = temp
     if(length(temp) == 0) all_spp_m[j,i+1] = 0
   }
-  #get a proper shortname for the graph
   replicate = substring(strsplit(all.tsv[i,1],split = "WatPhotz_")[[1]][2],4,4)
   location = substring(strsplit(all.tsv[i,1],split = "Champ")[[1]][2],1,3)
   date = strsplit(all.tsv[i,1],split = "-")[[1]][2]
-  colnames(all_spp_m)[i+1] = paste(location,date,replicate,sep = "_")
-  colnames(all_spp_m)[1] = "species" 
-  all_spp_shortnames = c(all_spp_shortnames,rep(paste(date,location,replicate,sep = "_"),nrow(all_spp_m)))
-}
+  dates = c(dates,date)
+  replicates = c(replicates,replicate)
+  locations = c(locations,location)
+  full = c(full,paste(location,date,replicate,sep = "_"))
+  }
 
-#PERMANOVA
-#The only assumption of PERMANOVA is independence of samples (I think, but could be wrong here)
-#permanova = adonis(formula=asv.filt.abundants.norm.hel~fertilization*species,strata=(design.keep$bloc/design.keep$replicate), data=design.keep, permutations=9999, method="bray")
-#permanova$aov.tab$comparison = "root_fungi"
-#all_spp_m = all_spp_m[,-c(6:8)]
-all_spp_m.pcoa = data.frame(all_spp_m[,-1])
-rownames(all_spp_m.pcoa) = all_spp_m[,1]
+###get rid of samples st1 from sept15th, they are weid
+all_spp_m = all_spp_m[,-c(6:8)]
+dates = dates[-c(6:8)]
+replicates = replicates[-c(6:8)]
+locations = locations[-c(6:8)]
+full = full[-c(6:8)]
 
-#transpose
-all_spp_m.pcoa=t(all_spp_m.pcoa)
+#####phyloseq
+####otu table
+colnames(all_spp_m)[-1] = full
+otumat = otu_table(all_spp_m[,-1],taxa_are_rows=T)
+rownames(otumat) = all_spp_m[,1]
 
-#standardize
-all_spp_m.pcoa.hel <-decostand(all_spp_m.pcoa, "hel")
+###FAKE tax table
+taxmat = matrix(sample(letters,nrow(all_spp_m)*7, replace = TRUE), nrow = nrow(otumat), ncol = 7)
+rownames(taxmat) <- rownames(otumat)
+colnames(taxmat) <- c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+taxmat = tax_table(taxmat)
 
-#dissimilarity
-all_spp_m.pcoa.hel.bray <-vegdist(all_spp_m.pcoa.hel, method="bray")
+###design
+design = sample_data(data.frame(dates,replicates,locations,full,row.names=colnames(all_spp_m)[-1],stringsAsFactors = F))
+  
 
-#Calculating PCoA
-all_spp_m.pcoa.hel.bray.pcoa<-pcoa(dist(all_spp_m.pcoa.hel.bray))
-
-#How many axes represent more variability (17)
-bs = all_spp_m.pcoa.hel.bray.pcoa$values$Broken_stick
-length(bs[bs>mean(bs)])
-
-#PVE of first 2 axes (4.7% & 3.8%)
-axis.1.2 = round((all_spp_m.pcoa.hel.bray.pcoa$values$Broken_stick/sum(all_spp_m.pcoa.hel.bray.pcoa$values$Broken_stick))[1:2],4)*100
-
-#Ploting the PCoAs - with fertilization as empty circles
-#crops are "darkred","darkblue","darkorange
-pcoa.plot = data.frame(all_spp_m.pcoa.hel.bray.pcoa$vectors[,1:2])
-pcoa.plot[regexpr("St1",rownames(pcoa.plot))>0,3] = "St1" #circle
-pcoa.plot[regexpr("PRM",rownames(pcoa.plot))>0,3] = "PRM" #triangle
-pcoa.plot[regexpr("St2",rownames(pcoa.plot))>0,3] = "St2" #square
-date = (unlist(strsplit(rownames(pcoa.plot),split = "_"))[seq(2,195,by =3)])
-pcoa.plot[,4] = ymd(date)
-colnames(pcoa.plot) = c("axis1","axis2","Sampling","date")
+###phyloseq object
+physeq = phyloseq(otumat, taxmat,design)
 
 
-p1=ggplot(pcoa.plot,aes(axis1,axis2)) +
-  labs(title = "Lake Champlain - PcoA (temp. 66 sps present at >1%)",shape = "Sampling Site", colour = "Sampling Date") +
-  geom_point(aes(colour=as.factor(date),shape = factor(Sampling))) +
+###ordination (NMDS is the same as pcoa?)
+
+physeq.ord <- ordinate(physeq, "PcoA", "bray")
+p1 = plot_ordination(physeq, physeq.ord, type="samples", color="dates", title="taxa",shape="locations") +
+  theme_bw() +
+  geom_point(stroke = 2) + 
+  labs(title = "Lake Champlain - PcoA (temp. 32 sps present at >1%)") +
   scale_shape(solid = T) +
-  ylab(paste("Axis 2 (PVE:",axis.1.2[2],"%)",sep = "")) + xlab(paste("Axis 1 (PVE:",axis.1.2[1],"%)",sep = "")) +
-  scale_color_brewer(palette= "Spectral")
-
-#
+  scale_color_brewer(palette= "PuOr")
 
 dev.new()
 p1
-dev.print(device=pdf, "figures/Champlain_pcoa.pdf", onefile=FALSE)
+dev.print(device=pdf, "figures/Champlain_PCoA.pdf", onefile=FALSE)
 dev.off()
+
 
 
