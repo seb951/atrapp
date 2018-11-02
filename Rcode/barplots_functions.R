@@ -48,7 +48,7 @@ all.tsv = read.table("all.tsv", stringsAsFactors = F)
 library(ggplot2)
 library(gridExtra)
 library(RColorBrewer)
-level = 1 #choose levels 1,2,3,4
+level = 4 #choose levels 1,2,3,4
 samples = NULL
 locations = NULL
 all_spp = NULL
