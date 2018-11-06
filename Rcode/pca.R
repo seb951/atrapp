@@ -74,18 +74,25 @@ physeq = phyloseq(otumat, taxmat,design)
 
 ###ordination (NMDS is the same as pcoa?)
 
-physeq.ord <- ordinate(physeq, "PcoA", "bray")
+physeq.ord <- ordinate(physeq, "PCoA", "bray")
 p1 = plot_ordination(physeq, physeq.ord, type="samples", color="dates", title="taxa",shape="locations") +
   theme_bw() +
   geom_point(stroke = 2) + 
-  labs(title = "Lake Champlain - PcoA (temp. 32 sps present at >1%)") +
+  labs(title = "Lake Champlain - PcoA \n(36 species present in > 1% of annotated sequences)") +
   scale_shape(solid = T) +
   scale_color_brewer(palette= "PuOr")
 
-dev.new()
+#PDF
+dev.new(width=6, height=5,noRStudioGD = TRUE)
 p1
-dev.print(device=pdf, "figures/Champlain_PCoA.pdf", onefile=FALSE)
+dev.print(device=pdf, "figures/Champlain_pcoa.pdf", onefile=FALSE)
 dev.off()
+
+#PNG
+png("figures/Champlain_pcoa.png",width=6, res =400,height=5,units= 'in')
+p1
+dev.off()
+
 
 
 

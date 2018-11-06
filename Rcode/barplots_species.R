@@ -1,6 +1,6 @@
 #!/usr/local/bin/Rscript
 
-setwd("/Users/jerry/Dropbox/CSBQ/shapiro")
+setwd("/Users/jerry/Documents/CSBQ/shapiro")
 
 #packages
 library(ggplot2)
@@ -44,7 +44,7 @@ temp = all_spp_m_ggplot
 all_spp_m_ggplot[,2] = rep(all_spp_m[,1],65)
 all_spp_m_ggplot[,3] = samples
 all_spp_m_ggplot[,4] = locations
-all_spp_m_ggplot[,5] = factor(all_spp_m_ggplot$locations, levels=c('St1','St2','PRM'))
+all_spp_m_ggplot[,5] = factor(all_spp_m_ggplot[,4], levels=c('St1','St2','PRM'))
 colnames(all_spp_m_ggplot) = c("fraction","species","samples","locations","locations_f")
 
 #top percentage according to "all_spp_five_m" vector
@@ -58,23 +58,24 @@ all_spp_m_ggplot_top12[,1] = all_spp_m_ggplot_top12[,1]/100
 
 #plot
 x = colorRampPalette(brewer.pal(12,"Paired"))
-p1=ggplot() + labs(title = "Lake Champlain - all annotated species",fill = "Taxonomy") +
+p1=ggplot() + labs(title = "Lake Champlain - annotated species",fill = "Taxonomy") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = samples, fill = species),
            data = all_spp_m_ggplot_top12,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-#all three (dimensions in inches)
+
+#PDF (dimensions in inches)
 dev.new(width=10, height=7,noRStudioGD = TRUE)
-#pdf('figures/Champlain_barplot.pdf',width=14, height=15)
 p1 + facet_grid(rows=vars(locations_f))
-dev.print(device=pdf, "figures/Champlain_species_barplot.pdf", onefile=FALSE)
+dev.print(device=pdf,"figures/Champlain_species_barplot.pdf", onefile=FALSE)
 dev.off()
 
+#PNG
+png("figures/Champlain_species_barplot.png",width=10, res =400,height=7,units= 'in')
+p1 + facet_grid(rows=vars(locations_f))
+dev.off()
 
-
-
-####sandbox
 
 
 

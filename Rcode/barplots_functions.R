@@ -1,4 +1,4 @@
-setwd("/Users/jerry/Dropbox/CSBQ/shapiro")
+setwd("/Users/jerry/Documents/CSBQ/shapiro")
 
 ##############################-----
 #########Fixing the missing data
@@ -48,7 +48,8 @@ all.tsv = read.table("all.tsv", stringsAsFactors = F)
 library(ggplot2)
 library(gridExtra)
 library(RColorBrewer)
-level = 4 #choose levels 1,2,3,4
+level=3 #choose levels 1,2,3,4
+
 samples = NULL
 locations = NULL
 all_spp = NULL
@@ -85,7 +86,8 @@ colnames(refseq.all.uniques)[-1] = samples
 
 
 #top X percent of functions
-X=0.5
+if(level == 1) X=0.5
+if(level == 2|3|4) X=1
 refseq.all.order = refseq.all.uniques[order(rowMeans(refseq.all.uniques[,-1]),decreasing=T),]
 refseq.all.top1 = refseq.all.uniques[rowMeans(refseq.all.uniques[,-1])>X,]
 dim(refseq.all.top1)
@@ -96,29 +98,30 @@ temp = all_spp_m_ggplot
 all_spp_m_ggplot[,2] = rep(refseq.all.top1[,1],65)
 all_spp_m_ggplot[,3] = as.vector(t(matrix(rep(samples,nrow(refseq.all.top1)),nrow=length(samples),ncol=nrow(refseq.all.top1))))
 all_spp_m_ggplot[,4] = as.vector(t(matrix(rep(locations,nrow(refseq.all.top1)),nrow=length(locations),ncol=nrow(refseq.all.top1))))
-all_spp_m_ggplot[,5] = 0
+all_spp_m_ggplot[,5] = factor(all_spp_m_ggplot[,4], levels=c('St1','St2','PRM'))
 colnames(all_spp_m_ggplot) = c("fraction","species","samples","locations","locations_f")
-all_spp_m_ggplot[,5] = factor(all_spp_m_ggplot$locations, levels=c('St1','St2','PRM'))
 
 #these are percentage values
 all_spp_m_ggplot[,1] = all_spp_m_ggplot[,1]/100
 
 #plot
 x = colorRampPalette(brewer.pal(12,"Paired"))
-p1=ggplot() + labs(title = "Lake Champlain - all annotated species",fill = "Taxonomy") +
+p1=ggplot() + labs(title = "Lake Champlain - annotated functions",fill = "Taxonomy") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(nrow(refseq.all.top1))) +
   geom_bar(aes(y = fraction, x = samples, fill = species),
            data = all_spp_m_ggplot,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
-#all three (dimensions in inches)
+#PDF (dimensions in inches)
 dev.new(width=10, height=7,noRStudioGD = TRUE)
-#pdf('figures/Champlain_barplot.pdf',width=14, height=15)
 p1 + facet_grid(rows=vars(locations_f))
 dev.print(device=pdf,paste("figures/Champlain_functions_barplot_level",level,".pdf",sep =""), onefile=FALSE)
 dev.off()
 
-
+#PNG
+png(paste("figures/Champlain_functions_barplot_level",level,".png",sep =""),width=10, res =400,height=7,units= 'in')
+p1 + facet_grid(rows=vars(locations_f))
+dev.off()
 
 
 
