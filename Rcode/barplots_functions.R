@@ -48,7 +48,7 @@ all.tsv = read.table("all.tsv", stringsAsFactors = F)
 library(ggplot2)
 library(gridExtra)
 library(RColorBrewer)
-level=3 #choose levels 1,2,3,4
+level=1 #choose levels 1,2,3,4
 
 samples = NULL
 locations = NULL
@@ -106,7 +106,7 @@ all_spp_m_ggplot[,1] = all_spp_m_ggplot[,1]/100
 
 #plot
 x = colorRampPalette(brewer.pal(12,"Paired"))
-p1=ggplot() + labs(title = "Lake Champlain - annotated functions",fill = "Taxonomy") +
+p1=ggplot() + labs(title = paste("Lake Champlain - annotated functions - level ",level,sep = ""),fill = "Taxonomy") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(nrow(refseq.all.top1))) +
   geom_bar(aes(y = fraction, x = samples, fill = species),

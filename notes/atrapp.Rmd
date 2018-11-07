@@ -114,7 +114,7 @@ paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences 
   
 ##RefSeq annotations - species
 ```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
-knitr::include_graphics("../figures/Champlain_species_barplot.pdf")
+knitr::include_graphics("../figures/Champlain_species_barplot.png")
 ```
 &nbsp;  
 &nbsp;  
@@ -127,7 +127,7 @@ knitr::include_graphics("../figures/Champlain_species_barplot.pdf")
 ###Environmental data (N,P,Chl)
 • Huge peak in values on Sept 9th, 2016.  
 ```{r environmental data, warning = F, message = F,out.width=800,out.height=900,fig.align='center',echo=F}
-knitr::include_graphics("../figures/env_data.png")
+knitr::include_graphics("../figures/environmental_data.png")
 ```
 &nbsp;  
 &nbsp;
@@ -181,55 +181,67 @@ knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 ```{r barplots_genes, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
 #running the barplot graph
 #system("./Rcode/barplots.R")
-knitr::include_graphics("../figures/Champlain_genes_barplot.pdf")
+knitr::include_graphics("../figures/Champlain_genes_barplot.png")
 ```
 
   
 ##Subseq annotations - functions
-• Here I only show *spp.* that are present >2% in at least one of the samples.  
+• Here I only show *spp.* that are present >1% in at least one of the samples (for level 2:4 >-.5% for level 1).  
 ```{r functions, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
 #running the barplot graph
 #system("./Rcode/barplots.R")
-knitr::include_graphics("../figures/Champlain_functions_barplot_level4.pdf")
+knitr::include_graphics("../figures/Champlain_functions_barplot_level1.png")
+knitr::include_graphics("../figures/Champlain_functions_barplot_level2.png")
+knitr::include_graphics("../figures/Champlain_functions_barplot_level3.png")
+knitr::include_graphics("../figures/Champlain_functions_barplot_level4.png")
 ```
 &nbsp;  
 
 ##Principal Coordinate Analyses
-• On the 25 most abundant species (note that this is preliminary as names will change to to a bug fis in Samsa2: bug explains differences btwn PRM and others...)
+• Note that the Sept 9th 2016 St1 sites were removed, because they skew the ordinations too much.
+• Most of the variation is explained by Axis 1. Samples get further away as time goes by.
 ```{r pcoa, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
-knitr::include_graphics("../figures/Champlain_pcoa.pdf")
+knitr::include_graphics("../figures/Champlain_pcoa.png")
 ```
 
 
 #To do (lab meeting Oct 19th):
 • What is *sp. PCC*?  
-**bug in the SAMSA2 python annotation scripts: IN PROGRESS**
+**Bug in the SAMSA2 python annotation scripts. Fixed**
 
 • Check the *Microcystis* in the database and in the list of annotated genes?  
-• Get a *Microcystis* protein set (or predict it from genome): talk to Olga?  
-**There are 67425 Microcystis gene products (63.5k are for M. aeruginosa)**
+**There are 67425 Microcystis gene products (63.5k are for M. aeruginosa) in the dataset**  
+**This is a very good representation**  
 
-• Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)? **done. Refiltered samples... oct 30th**
-**Didn't change results very much**
+• Get a *Microcystis* protein set from Olga?  
+**Done, but not sure how usefull, given that it is actually well represented in the dataset**
+
+• Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)?   
+**Done. Refiltered samples as there was indeed some contamination**  
+**Didn't change results very much**  
 
 • Check sequence similarity bwtn the 2 fecal species proteins  
 **done. There are almost the same...**
+  
+• Theoretically, you should get a could corellation bwtn annotation to Rubisco + Photosystem and chlorophyll content. I should verify this (simple correlation or can also perfom a more complex RDA)  
+**Not done yet, but I suspect correlation is not great... Why: I don't know**
 
-
-• Theoretically, you should get a could corellation bwtn annotation to Rubisco + Photosystem and chlorophyll content. I should verify this (simple correlation or can also perfom a more complex RDA)
-
-• Check annotatin at the other three functionnal levels (right know, I only look at the first one...)  
+• Check annotatin at the other three functionnal levels (right know, I only look at the first one...)   
+**Done at all 4 levels**  
 
 • [eggnog](http://eggnogdb.embl.de/) annotation
+**Not done** 
 
-• I can do a PCA to look at sample clustering based on communities
+
+• I can do a PCA to look at sample clustering based on communities  
 **Done using phyloseq (Sept 15th samples were removed because they skew the ordinations so much...)**  
 
+• I can do an RDA to see how certain samples may correlate with environmental data  
+**Not done, as environmental variables are being updated now**
 
+• Look at alpha + beta diversity  
+**Not done**
 
-• I can do an RDA to see how certain samples may correlate with environmental data
-
-• Look at alpha + beta divervisty
 
 &nbsp;  
 &nbsp;  
