@@ -78,7 +78,7 @@ min50[,1] = unlist(strsplit(min50_n,"_merg"))[c(1,3,5)]
 min50[,c(1,9)]
 ```  
 
-##Percentages annotated
+##Other stats
 ```{r annot, warning = F, message = F,echo=F}
 refseq = read.table("../results/summary_stats/refseq",stringsAsFactors = F)
 subsys = read.table("../results/summary_stats/subsys",stringsAsFactors = F)
@@ -94,13 +94,15 @@ paste(max(subsys[,1]),": maximum nb sequence annotated per sample (subsys)",sep 
 paste(signif(mean(subsys[,1]),4),": mean nb sequence annotated per sample (subsys)",sep = "")
 
 #Total Number of sequences (~20k sequences / megabyte of fastq.gz)
-nb_seq = 79*1000*20000 
-paste(nb_seq,": Total Number of sequence (rough average)",sep = "")
+summary_counts = read.table("../results/summary_stats/summary_counts",stringsAsFactors = F)
+nb_seq = 79*1000*20000 #rough average
+nb_seq = round(sum(summary_counts[,1])/4000000000,4) #exact number (rough average was ~90% the same...)
+paste(nb_seq,": Total Number of paired-end reads (billions)",sep = "")
 
 #Total Number of sequences after cleaning (~20k sequences / megabyte of fastq.gz)
 #remember that here a merged sequence is composed of the 2 PEs
 nb_seq_clean = (nb_seq/2) * (mean(as.numeric(pe_assembly[,7]))/100) * (1-(mean(as.numeric(trimmed[,9]))/100)) * (1-(mean(as.numeric(ribosomes[,9]))/100))
-paste(signif(nb_seq_clean,2),": Total Number of sequences after cleaning",sep = "")
+paste(signif(nb_seq_clean,2),": Total Number of sequences after cleaning+merging (billions)",sep = "")
 #What fraction of sequences are annotated 
 
 #refseq
@@ -109,7 +111,7 @@ paste(signif(sum(refseq[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences 
 #subsys
 paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (subsys)",sep = "")
 ```  
-• Note: I can't remember the *Diamond* threshold (e^10?, check on cedar)...    
+• Note: *Diamond* threshold (default=0.001: kinda high, but most keep high, given that these are short reads, even if merged...)...    
 • Note: threshold may not be that important, given that we are more interested in how *things* change over time...      
   
 ##RefSeq annotations - species
@@ -175,6 +177,19 @@ knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 `samtools faidx Blautia_massiliensis_GD8_NZ_LN913006_WGS.fasta NZ_LN913006.1:2359000-2360200 >B_massiliensis_contig1.fasta`
 
 • Yes, if we align the genomics regions for which the sequences matched to (with MUSCLE), the are almost the same (~99% identity of ~150bp)
+
+##RefSeq annotations - species Fold change
+```{r foldchanges, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Champlain_species_foldchange.png")
+```
+&nbsp;  
+&nbsp;  
+    
+• Here I only show *spp.* that are present >5% in at least one of the samples  
+• Replicated (a, b & c) were merged.
+• We can see the *Dolichospermum* bloom much better. In addition to the *Microcystis* +  *Anabaena sp.* blooms
+
+
 
 ##RefSeq annotations - gene names
 • Here I only show *spp.* that are present >1% in at least one of the samples.   

@@ -60,7 +60,7 @@ all_spp_m_ggplot_top12[,1] = all_spp_m_ggplot_top12[,1]/100
 x = colorRampPalette(brewer.pal(12,"Paired"))
 p1=ggplot() + labs(title = "Lake Champlain - annotated species",fill = "Taxonomy") +
   theme_bw() + 
-  theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
+  theme(legend.text = element_text(face="italic"),plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = samples, fill = species),
            data = all_spp_m_ggplot_top12,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
@@ -77,5 +77,71 @@ p1 + facet_grid(rows=vars(locations_f))
 dev.off()
 
 
+###
+###Plot the Fold change over time...
+###
+#add dates to the dataframe to calculate mean per sampling date replicate per location
+all_spp_m_ggplot_top12$dates = unlist(strsplit(all_spp_m_ggplot_top12$samples,"_"))[seq(1,(nrow(all_spp_m_ggplot_top12)*2),by = 2)]
+
+#Keep only fractions
+fraction = as.data.frame(all_spp_m_ggplot_top12$fraction)
+
+#dplyr fractions data per replicate, per location and per species
+all_spp_m_ggplot_top12.replicates_merged = fraction %>% group_by(all_spp_m_ggplot_top12$locations,all_spp_m_ggplot_top12$dates,all_spp_m_ggplot_top12$species) %>% summarise_all(mean)
+
+#add columns for FoldChanges.
+all_spp_m_ggplot_top12.replicates_merged$fold_change_mean = 0
+all_spp_m_ggplot_top12.replicates_merged$fold_change = 0
+
+#add the locations as factors as well + give column names
+all_spp_m_ggplot_top12.replicates_merged$locations_f = 0
+colnames(all_spp_m_ggplot_top12.replicates_merged) = c("locations","dates","species","fraction","fold_change_mean","fold_change","locations_f")
+all_spp_m_ggplot_top12.replicates_merged = as.data.frame(all_spp_m_ggplot_top12.replicates_merged)
+all_spp_m_ggplot_top12.replicates_merged$locations_f = factor(all_spp_m_ggplot_top12.replicates_merged[,1], levels=c('St1','St2','PRM'))
+
+####Fold change progression from Time 0 (logFC = 1)
+for(i in 1: nrow(all_spp_m_ggplot_top12.replicates_merged))
+{
+  #per species
+  temp = all_spp_m_ggplot_top12.replicates_merged[all_spp_m_ggplot_top12.replicates_merged$species == all_spp_m_ggplot_top12.replicates_merged[i,3],]
+  
+  #per location
+  temp = as.data.frame(temp)
+  temp2 = temp[temp$locations == all_spp_m_ggplot_top12.replicates_merged[i,1],]
+  
+  #value divided by mean value
+  all_spp_m_ggplot_top12.replicates_merged$fold_change_mean[i] = log(all_spp_m_ggplot_top12.replicates_merged[i,4] / mean(temp2[,4], na.rm =T),10)
+  #value divided by Time 0
+  all_spp_m_ggplot_top12.replicates_merged$fold_change[i] = log(all_spp_m_ggplot_top12.replicates_merged[i,4] / temp2[temp2[,2]=="20160601",4],10)
+    }
+
+#add cyano column 
+all_spp_m_ggplot_top12.replicates_merged$cyano = "0"
+all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Anabaena sp."] = "cyano"
+all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Dolichospermum circinale"] = "cyano"
+all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Microcystis aeruginosa"] = "cyano"
 
 
+#ggplot object
+x = colorRampPalette(brewer.pal(12,"Paired"))
+p1=ggplot() + labs(title = "Lake Champlain - annotated species",fill = "Taxonomy") +
+  theme_bw() + 
+  theme(legend.text = element_text(face="italic"),plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_colour_manual(aesthetics = "colour",values = x(length(all_spp_five_m))) +
+  geom_line(aes(y = fold_change, x = dates, linetype = cyano, colour = species,group=species),size = 2,data = all_spp_m_ggplot_top12.replicates_merged,stat="identity") +
+  ylab("log10 Fold change since Time 0")  + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(colour="Species (dashed = cyanobacteria)") +
+  scale_linetype_discrete(name="cyano",guide=F)
+
+#dev.new(width=10, height=7,noRStudioGD = TRUE)
+p1 + facet_grid(rows=vars(locations_f),scales="free")
+
+#PDF (dimensions in inches)
+dev.new(width=10, height=7,noRStudioGD = TRUE)
+p1 + facet_grid(rows=vars(locations_f))
+dev.print(device=pdf,"figures/Champlain_species_foldchange.pdf", onefile=FALSE)
+dev.off()
+
+#PNG
+png("figures/Champlain_species_foldchange.png",width=10, res =400,height=7,units= 'in')
+p1 + facet_grid(rows=vars(locations_f))
+dev.off()

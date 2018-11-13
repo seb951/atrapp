@@ -15,7 +15,7 @@ cat temp1_nn temp2_nn temp3_nn >pe_assembly
 
 rm temp*
 
-#how many merged reads were dropped
+#how many merged reads were trimmed
 grep 'Dropped' ../samsa2_run_St1/step_2_trimming/trimmomatic_log >temp1
 grep 'Dropped' ../samsa2_run_St2/step_2_trimming/trimmomatic_log >temp2
 grep 'Dropped' ../samsa2_run_PRM/step_2_trimming/trimmomatic_log >temp3
