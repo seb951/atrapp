@@ -120,6 +120,7 @@ all_spp_m_ggplot_top12.replicates_merged$cyano = "0"
 all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Anabaena sp."] = "cyano"
 all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Dolichospermum circinale"] = "cyano"
 all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Microcystis aeruginosa"] = "cyano"
+all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Synechococcus sp."] = "cyano"
 
 
 #ggplot object
