@@ -6,6 +6,8 @@ setwd("/Users/jerry/Documents/CSBQ/shapiro")
 library(ggplot2)
 library(gridExtra)
 library(RColorBrewer)
+library(dplyr)
+library(lubridate)
 
 system("ls -1 results/org_results/*RefSeq_annot_organism.tsv >all.tsv")
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
@@ -60,6 +62,7 @@ all_spp_m_ggplot_top12[,1] = all_spp_m_ggplot_top12[,1]/100
 x = colorRampPalette(brewer.pal(12,"Paired"))
 p1=ggplot() + labs(title = "Lake Champlain - annotated species",fill = "Taxonomy") +
   theme_bw() + 
+  scale_x_date(date_breaks = "months" , date_labels = "%b") +
   theme(legend.text = element_text(face="italic"),plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = samples, fill = species),
            data = all_spp_m_ggplot_top12,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -82,7 +85,7 @@ dev.off()
 ###
 #add dates to the dataframe to calculate mean per sampling date replicate per location
 all_spp_m_ggplot_top12$dates = unlist(strsplit(all_spp_m_ggplot_top12$samples,"_"))[seq(1,(nrow(all_spp_m_ggplot_top12)*2),by = 2)]
-
+all_spp_m_ggplot_top12$dates = ymd(all_spp_m_ggplot_top12$dates)
 #Keep only fractions
 fraction = as.data.frame(all_spp_m_ggplot_top12$fraction)
 
@@ -112,7 +115,7 @@ for(i in 1: nrow(all_spp_m_ggplot_top12.replicates_merged))
   #value divided by mean value
   all_spp_m_ggplot_top12.replicates_merged$fold_change_mean[i] = log(all_spp_m_ggplot_top12.replicates_merged[i,4] / mean(temp2[,4], na.rm =T),10)
   #value divided by Time 0
-  all_spp_m_ggplot_top12.replicates_merged$fold_change[i] = log(all_spp_m_ggplot_top12.replicates_merged[i,4] / temp2[temp2[,2]=="20160601",4],10)
+  all_spp_m_ggplot_top12.replicates_merged$fold_change[i] = log(all_spp_m_ggplot_top12.replicates_merged[i,4] / temp2[temp2[,2]=="2016-06-01",4],10)
     }
 
 #add cyano column 
@@ -131,10 +134,8 @@ p1=ggplot() + labs(title = "Lake Champlain - annotated species",fill = "Taxonomy
   geom_line(aes(y = fold_change, x = dates, linetype = cyano, colour = species,group=species),size = 2,data = all_spp_m_ggplot_top12.replicates_merged,stat="identity") +
   ylab("log10 Fold change since Time 0")  + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   labs(colour="Species (dashed = cyanobacteria)") +
-  scale_linetype_discrete(name="cyano",guide=F)
-
-#dev.new(width=10, height=7,noRStudioGD = TRUE)
-p1 + facet_grid(rows=vars(locations_f),scales="free")
+  scale_linetype_discrete(name="cyano",guide=F) +
+  scale_x_date(date_breaks = "months" , date_labels = "%b")
 
 #PDF (dimensions in inches)
 dev.new(width=10, height=7,noRStudioGD = TRUE)

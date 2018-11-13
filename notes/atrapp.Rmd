@@ -219,6 +219,12 @@ knitr::include_graphics("../figures/Champlain_functions_barplot_level4.png")
 knitr::include_graphics("../figures/Champlain_pcoa.png")
 ```
 
+##alpha diversity over time
+• alpha
+```{r alpha, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
+knitr::include_graphics("../figures/alpha.png")
+```
+
 
 #To do (lab meeting Oct 19th):
 • What is *sp. PCC*?  
