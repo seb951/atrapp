@@ -106,13 +106,13 @@ paste(signif(nb_seq_clean,2),": Total Number of sequences after cleaning+merging
 #What fraction of sequences are annotated 
 
 #refseq
-paste(signif(sum(refseq[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (refseq)",sep = "")
+paste(signif((sum(refseq[,1])/1000000000)/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (refseq)",sep = "")
 
 #subsys
-paste(signif(sum(subsys[,1])/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (subsys)",sep = "")
+paste(signif(sum((subsys[,1])/1000000000)/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (subsys)",sep = "")
 ```  
-• Note: *Diamond* threshold (default=0.001: kinda high, but most keep high, given that these are short reads, even if merged...)...    
-• Note: threshold may not be that important, given that we are more interested in how *things* change over time...      
+• Note: *Diamond* threshold (default=0.001: kinda high, but mUst keep high, given that these are short reads, even if merged...)...    
+• Note: threshold may not be that important, given that we are more interested in how *things* change over time, not necessary precisely identify a species...      
   
 ##RefSeq annotations - species
 ```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
@@ -269,5 +269,12 @@ knitr::include_graphics("../figures/alpha.png")
 &nbsp;  
 &nbsp;  
 
+
+
+
+-metagenome corellated with metatranscriptome
+-microcystin operon expression
+-fold changes for functions...
+-oceans metag vs . metat papers...
 
 

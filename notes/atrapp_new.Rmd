@@ -1,0 +1,20 @@
+---
+title: "ATRAPP transcriptomics"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_document:
+    highlight: tango
+    number_sections: T
+    theme: united
+    toc: yes
+    toc_depth: 4
+---
+
+
+#SAMSA2 
+-metagenome corellated with metatranscriptome
+-microcystin operon expression
+-fold changes for functions...
+-oceans metag vs . metat papers...
+
+
