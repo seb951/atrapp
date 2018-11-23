@@ -170,11 +170,11 @@ knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 &nbsp;  
 
 ###Are the *B. massiliensis* & *I. massiliense* genomic regions the same?
-`samtools faidx Inediibacterium_massiliense_genome.fasta`
-`samtools faidx Inediibacterium_massiliense_genome.fasta NZ_LN876587.1:1637150-1637400 >I_massiliense_contig1.fasta`
+`samtools faidx Inediibacterium_massiliense_genome.fasta`  
+`samtools faidx Inediibacterium_massiliense_genome.fasta NZ_LN876587.1:1637150-1637400 >I_massiliense_contig1.fasta`  
 
-`samtools faidx Inediibacterium_massiliense_genome.fasta`
-`samtools faidx Blautia_massiliensis_GD8_NZ_LN913006_WGS.fasta NZ_LN913006.1:2359000-2360200 >B_massiliensis_contig1.fasta`
+`samtools faidx Inediibacterium_massiliense_genome.fasta`  
+`samtools faidx Blautia_massiliensis_GD8_NZ_LN913006_WGS.fasta NZ_LN913006.1:2359000-2360200 >B_massiliensis_contig1.fasta`  
 
 • Yes, if we align the genomics regions for which the sequences matched to (with MUSCLE), the are almost the same (~99% identity of ~150bp)
 
