@@ -1,7 +1,7 @@
 #PCoA
 
 
-setwd("/Users/jerry/Dropbox/CSBQ/shapiro")
+setwd("/Users/jerry/Documents/CSBQ/shapiro")
  
 #packages
 #library(pals)

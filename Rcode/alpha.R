@@ -52,7 +52,7 @@ alpha_div[,5] = vegan::diversity(t(all_spp_m[,2:66]), index= "invsimpson")
 p1 = ggplot() + labs(title = "Lake Champlain - alpha diversity") +
   geom_point(aes(x = date, y = alpha),na.rm=T,data = alpha_div) + 
   theme_bw() + 
-  ylab("alpha diversity") +
+  ylab("alpha diversity (Inverse Simpson Index)") +
   xlab("Sampling date") +
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) +
   scale_x_date(date_breaks = "months" , date_labels = "%b") +

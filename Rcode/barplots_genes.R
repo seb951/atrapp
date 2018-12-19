@@ -18,7 +18,7 @@ for(i in 1:nrow(all.tsv))
 {
 refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
 all_spp = c(all_spp,refseq.all[1:10,3]) #keep only top 10
-all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>1,3]) #keep only the ones that are at more than 1%
+all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>1,3]) #keep only the ones that are at more than 3%
 }
 all_spp_five_m = unique(sort(all_spp_five))
 all_spp_m = data.frame(unique(sort(all_spp)),stringsAsFactors = F)

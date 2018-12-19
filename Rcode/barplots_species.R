@@ -20,7 +20,7 @@ for(i in 1:nrow(all.tsv))
 {
 refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
 all_spp = c(all_spp,refseq.all[1:10,3]) #keep only top 10
-all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>3,3]) #keep only the ones that are at more than 5%
+all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>5,3]) #keep only the ones that are at more than 5%
 }
 all_spp_five_m = unique(sort(all_spp_five))
 all_spp_m = data.frame(unique(sort(all_spp)),stringsAsFactors = F)
@@ -41,6 +41,7 @@ for(i in 1:nrow(all.tsv))
   samples = c(samples,rep(paste(date,replicate,sep = "_"),nrow(all_spp_m)))
   locations = c(locations,rep(location,nrow(all_spp_m)))
 }
+
 all_spp_m_ggplot = data.frame(unlist(all_spp_m[,2:66]))
 temp = all_spp_m_ggplot
 all_spp_m_ggplot[,2] = rep(all_spp_m[,1],65)
@@ -62,7 +63,7 @@ all_spp_m_ggplot_top12[,1] = all_spp_m_ggplot_top12[,1]/100
 x = colorRampPalette(brewer.pal(12,"Paired"))
 p1=ggplot() + labs(title = "Lake Champlain - annotated species",fill = "Taxonomy") +
   theme_bw() + 
-  scale_x_date(date_breaks = "months" , date_labels = "%b") +
+  #scale_x_date(date_breaks = "months" , date_labels = "%b") +
   theme(legend.text = element_text(face="italic"),plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = samples, fill = species),
            data = all_spp_m_ggplot_top12,stat="identity") + ylab("fraction of annotated species")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -124,7 +125,7 @@ all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates
 all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Dolichospermum circinale"] = "cyano"
 all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Microcystis aeruginosa"] = "cyano"
 all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Synechococcus sp."] = "cyano"
-
+all_spp_m_ggplot_top12.replicates_merged$cyano[all_spp_m_ggplot_top12.replicates_merged[,3] == "Nostocales"] = "cyano"
 
 #ggplot object
 x = colorRampPalette(brewer.pal(12,"Paired"))

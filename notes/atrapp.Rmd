@@ -12,59 +12,64 @@ output:
 
 
 #SAMSA2 
-• [Westreich *et al.* 2018. SAMSA2: standalone metatranscriptome analysis pipeline. BMC Bioinformatics](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5963165/)  
-• [github repo](https://github.com/transcript/samsa2)    
+* [Westreich *et al.* 2018. SAMSA2: standalone metatranscriptome analysis pipeline. BMC Bioinformatics](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5963165/)  
+* [github repo](https://github.com/transcript/samsa2)    
 ![](../figures/samsa2.png){width=500px}  
 ![](https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fs12859-018-2189-z/MediaObjects/12859_2018_2189_Fig1_HTML.gif){width=500px}  
 &nbsp;  
   
 ##RefSeq database
-• Non-redundant set of reference proteins (predicted+verified)  
-• Contains species + protein name  
-• 27G, 68M sequences
+* Non-redundant set of reference proteins (predicted+verified)  
+* Contains species + protein name  
+* 27G, 68M sequences
 
 ##Subsystems database
-• SEED is a categorization system which organizes gene functional categories into a hierarchy (4 levels)  
-• 7.6G, 2.9M sequences
+* SEED is a categorization system which organizes gene functional categories into a hierarchy (4 levels)  
+* 7.6G, 2.9M sequences
 
 #Data
-• 2016 Lake Champlain algal bloom samples  
-• Metatranscriptomes (2 X 100bp Illumina HiSeq)  
-• 3 sampling site: PRM (15 samples), St1 (27 samples), St2 (23 samples)  
-• 130 fastq samples (79G of fastq.gz data)  
+* 2016 Lake Champlain algal bloom samples  
+* Metatranscriptomes (2 X 100bp Illumina HiSeq)  
+* 3 sampling site: PRM (15 samples), St1 (27 samples), St2 (23 samples)  
+* 130 fastq samples (79G of fastq.gz data)  
 
 #Running the pipeline
-• Compute Canada (Cedar)  
-• I ran the pipeline seperately for each sampling site   
-• 48 CPUs, ~15hr X 3 sampling sites  
+* Compute Canada (Cedar)  
+* I ran the pipeline seperately for each sampling site   
+* 48 CPUs, ~15hr X 3 sampling sites  
  
 #Results
 
 ##Merging
 ```{r merging, warning = F, message = F, echo=F}  
-pe_assembly = read.table("../results/summary_stats/pe_assembly",stringsAsFactors = F)
+pe_assembly = read.table("../results/summary_stats/pe_assembly2",stringsAsFactors = F)
 pe_assembly[,7] = sub("%","",pe_assembly[,7],fixed=T)
 pe_assembly[,7] = sub("(","",pe_assembly[,7],fixed=T)
 pe_assembly[,7] = sub(")","",pe_assembly[,7],fixed=T)
 hist(as.numeric(pe_assembly[,7]),xlab = "% merged",main= "merging PE")
 paste(signif(mean(as.numeric(pe_assembly[,7])),4)," % of sequences were merged",sep = "")
-paste("Does merging make sense? Depending on size selection of amplicons sequenced (should check)")
 ```    
+* Does merging make sense? Depends? on size selection of amplicons sequenced (should check)  
+* I now also keep unmerged reads (unmerged reads are concatenated and added to a single file. The forward read and the reverse (complement) read are concatenated with a string of 20 Ns in the middle: This is done through a new R script entitled: combining_umerged.R)
+
 
 ##Trimmomatic
 ```{r trimmo, warning = F, message = F, echo=F}  
-trimmed = read.table("../results/summary_stats/trimmed",stringsAsFactors = F)
+trimmed = read.table("../results/summary_stats/trimmed2",stringsAsFactors = F)
 trimmed[,9] = sub("%","",trimmed[,9],fixed=T)
 trimmed[,9] = sub("(","",trimmed[,9],fixed=T)
 trimmed[,9] = sub(")","",trimmed[,9],fixed=T)
 hist(as.numeric(trimmed[,9]),xlab = "% dropped",main= "Trimmomatic")
 paste(signif(mean(as.numeric(trimmed[,9])),4)," % of sequences were dropped",sep = "")
 ```  
+  
+* Note: I now trim out all illumina adaptors, which wasn't done before...  
+* Note: I've double checked that contaminating adaptors are removed using fastqc.
 
 
 ##Ribosomes
 ```{r ribo, warning = F, message = F,echo=F}  
-ribosomes = read.table("../results/summary_stats/ribosomes",stringsAsFactors = F)
+ribosomes = read.table("../results/summary_stats/ribosomes2",stringsAsFactors = F)
 ribosomes[,9] = sub("%","",ribosomes[,9],fixed=T)
 ribosomes[,9] = sub("(","",ribosomes[,9],fixed=T)
 ribosomes[,9] = sub(")","",ribosomes[,9],fixed=T)
@@ -80,8 +85,8 @@ min50[,c(1,9)]
 
 ##Other stats
 ```{r annot, warning = F, message = F,echo=F}
-refseq = read.table("../results/summary_stats/refseq",stringsAsFactors = F)
-subsys = read.table("../results/summary_stats/subsys",stringsAsFactors = F)
+refseq = read.table("../results/summary_stats/refseq2",stringsAsFactors = F)
+subsys = read.table("../results/summary_stats/subsys2",stringsAsFactors = F)
 
 #refseq
 paste(min(refseq[,1]),": mininum nb sequence annotated per sample (refseq)",sep = "")
@@ -111,24 +116,24 @@ paste(signif((sum(refseq[,1])/1000000000)/(nb_seq_clean)*100,4),"% : percentage 
 #subsys
 paste(signif(sum((subsys[,1])/1000000000)/(nb_seq_clean)*100,4),"% : percentage of sequences annotated (subsys)",sep = "")
 ```  
-• Note: *Diamond* threshold (default=0.001: kinda high, but mUst keep high, given that these are short reads, even if merged...)...    
-• Note: threshold may not be that important, given that we are more interested in how *things* change over time, not necessary precisely identify a species...      
+* Note: *Diamond* threshold (default=0.001: kinda high, but mUst keep high, given that these are short reads, even if merged...)...    
+* Note: threshold may not be that important, given that we are more interested in how *things* change over time, not necessary precisely identify a species...      
   
 ##RefSeq annotations - species
-```{r barplots, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
-knitr::include_graphics("../figures/Champlain_species_barplot.png")
+```{r barplots, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Champlain_genera_barplot.png")
 ```
 &nbsp;  
 &nbsp;  
     
-• Here I only show *spp.* that are present >5% in at least one of the samples  
-• We can see the *Dolichospermum* bloom  
-• What is going in the St1 samples on Sept 15th?  
-• *Inediibacterium massiliense* and *Blautia massiliensis* are human fecal bacteria...  
+* Here I only show *spp.* that are present >5% in at least one of the samples  
+* We can see the *Dolichospermum* bloom  
+* What is going in the St1 samples on Sept 15th?  
+* *Inediibacterium massiliense* and *Blautia massiliensis* are human fecal bacteria...  
 
 ###Environmental data (N,P,Chl)
-• Huge peak in values on Sept 9th, 2016.  
-```{r environmental data, warning = F, message = F,out.width=800,out.height=900,fig.align='center',echo=F}
+* Huge peak in values on Sept 9th, 2016.  
+```{r environmental data, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
 knitr::include_graphics("../figures/environmental_data.png")
 ```
 &nbsp;  
@@ -136,37 +141,37 @@ knitr::include_graphics("../figures/environmental_data.png")
 
 
 ###*I. massiliense*  
-• All *I. massiliense* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (*WP_053955528.1*) in refseq.  
-• *e-values* ~e-20 (because sequences are small + sequence identity ~90%)  
+* All *I. massiliense* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (*WP_053955528.1*) in refseq.  
+* *e-values* ~e-20 (because sequences are small + sequence identity ~90%)  
 
 ####*I. massiliense* genome BLAST  
-• Download *I. massiliense* genome.    
-• BLASTn sequences (for now only 100k sequences) against it.    
-• 20160915_St1: hits to a single region of ~150bp (sequence identity ~90%, **6206** hits/100k sequences)     
-• 20160601_St1: hits to a single region of ~150bp (sequence identity ~90%, **31** hits/100k sequences)    
+* Download *I. massiliense* genome.    
+* BLASTn sequences (for now only 100k sequences) against it.    
+* 20160915_St1: hits to a single region of ~150bp (sequence identity ~90%, **6206** hits/100k sequences)     
+* 20160601_St1: hits to a single region of ~150bp (sequence identity ~90%, **31** hits/100k sequences)    
 ```{r Imassiliense, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
 knitr::include_graphics("../figures/Imassiliense_genome_mapping.png")
 ```
 &nbsp;    
-• Conclusion: sequences may NOT be *I. massiliense*, but something close and ~200X more abundant in these samples
+* Conclusion: sequences may NOT be *I. massiliense*, but something close and ~200X more abundant in these samples
 
 
 ###*B. massiliensis*  
-• All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1) in refseq  
-• *e-values* ~e-10 (because sequences are small + %identity ~90%)
+* All *B. massiliensis* 20160915_St1 sequences match to a single hypothetical (*i.e predicted*) protein (WP_059086336.1) in refseq  
+* *e-values* ~e-10 (because sequences are small + %identity ~90%)
 
 ####*B. massiliensis* genome BLAST
-• Download *B. massiliensis* genome (3.5 Mbp)  
-•  BLASTn sequences (for now only 100k sequences) against it.  
-• Sequences BLAST to **several** regions of the genome    
-• 20160915_St1: **34801** hits/100k sequences to several genomic regions   
-• 20160601_St1: **188** hits/100k sequences  
+* Download *B. massiliensis* genome (3.5 Mbp)  
+* BLASTn sequences (for now only 100k sequences) against it.  
+* Sequences BLAST to **several** regions of the genome    
+* 20160915_St1: **34801** hits/100k sequences to several genomic regions   
+* 20160601_St1: **188** hits/100k sequences  
 
 ```{r Bmassiliensis, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
 knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 ```
 
-• Same conclusion: may not be *B. massiliensis*, but something close and much more abundant in these samples (~200X).  
+* Same conclusion: may not be *B. massiliensis*, but something close and much more abundant in these samples (~200X).  
 &nbsp;  
 
 ###Are the *B. massiliensis* & *I. massiliense* genomic regions the same?
@@ -176,24 +181,24 @@ knitr::include_graphics("../figures/Bmassiliensis_genome_mapping.png")
 `samtools faidx Inediibacterium_massiliense_genome.fasta`  
 `samtools faidx Blautia_massiliensis_GD8_NZ_LN913006_WGS.fasta NZ_LN913006.1:2359000-2360200 >B_massiliensis_contig1.fasta`  
 
-• Yes, if we align the genomics regions for which the sequences matched to (with MUSCLE), the are almost the same (~99% identity of ~150bp)
+* Yes, if we align the genomics regions for which the sequences matched to (with MUSCLE), the are almost the same (~99% identity of ~150bp)
 
-##RefSeq annotations - species Fold change
-```{r foldchanges, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
-knitr::include_graphics("../figures/Champlain_species_foldchange.png")
+##RefSeq annotations - genera Fold change
+```{r foldchanges, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Champlain_genera_foldchange.png")
 ```
 &nbsp;  
 &nbsp;  
     
-• Here I only show *spp.* that are present >5% in at least one of the samples  
-• Replicated (a, b & c) were merged.
-• We can see the *Dolichospermum* bloom much better. In addition to the *Microcystis* +  *Anabaena sp.* blooms
+* Here I only show *spp.* that are present >5% in at least one of the samples  
+* Replicated (a, b & c) were merged.
+* We can see the *Dolichospermum* bloom much better. In addition to the *Microcystis* +  *Anabaena sp.* blooms
 
 
 
 ##RefSeq annotations - gene names
-• Here I only show *spp.* that are present >1% in at least one of the samples.   
-```{r barplots_genes, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
+* Here I only show *spp.* that are present >1% in at least one of the samples.   
+```{r barplots_genes, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
 #running the barplot graph
 #system("./Rcode/barplots.R")
 knitr::include_graphics("../figures/Champlain_genes_barplot.png")
@@ -201,8 +206,8 @@ knitr::include_graphics("../figures/Champlain_genes_barplot.png")
 
   
 ##Subseq annotations - functions
-• Here I only show *spp.* that are present >1% in at least one of the samples (for level 2:4 >-.5% for level 1).  
-```{r functions, warning = F, message = F,out.width=1050,out.height=1200,fig.align='center',echo=F}
+* Here I only show *spp.* that are present >1% in at least one of the samples (for level 2:4 >-.5% for level 1).  
+```{r functions, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
 #running the barplot graph
 #system("./Rcode/barplots.R")
 knitr::include_graphics("../figures/Champlain_functions_barplot_level1.png")
@@ -213,68 +218,96 @@ knitr::include_graphics("../figures/Champlain_functions_barplot_level4.png")
 &nbsp;  
 
 ##Principal Coordinate Analyses
-• Note that the Sept 9th 2016 St1 sites were removed, because they skew the ordinations too much.
-• Most of the variation is explained by Axis 1. Samples get further away as time goes by.
-```{r pcoa, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
+* Note that the Sept 9th 2016 St1 sites were removed, because they skew the ordinations too much.
+* Most of the variation is explained by Axis 1. Samples get further away as time goes by.
+```{r pcoa, warning = F, message = F,out.width=600,out.height=600,fig.align='center',echo=F}
 knitr::include_graphics("../figures/Champlain_pcoa.png")
 ```
 
 ##alpha diversity over time
-• alpha
-```{r alpha, warning = F, message = F,out.width=500,out.height=600,fig.align='center',echo=F}
+* alpha
+```{r alpha, warning = F, message = F,out.width=1000,out.height=600,fig.align='center',echo=F}
 knitr::include_graphics("../figures/alpha.png")
 ```
 
+##Cyanotoxic bacteria
+* Looking at the expression of 342 cyanotoxic genes (as Identified by Olga).
+* Cyanotoxic genes represent ~1% of all genes expressed (Note that graph below depicts total counts).
+* Cyanotoxic genes rise similary to what was identified in metatranscriptomics (although more diversity is found here)
+```{r cyanotoxic, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
+knitr::include_graphics("../figures/Champlain_cyano_barplot.png")
+```
+
+##Metagenomics vs metatranscriptomics
+* First, you can see the difference in the bloom composition between the 2015 and 2016 metagenomics datasets (First 2 panels). In 2015, it is dominated by *Microcystis*. In 2016, it is dominated by *Dolichospermum*, but in September *Microcystis* start to show up and dominate.
+* In 2016, for which we had metagenomics vs metatranscriptomics at similar dates, the *Dolichospermum* story is similar, but the *Microcystis* are almost absent from metatrasncriptomics... This means that they are there (according to metagenomics), but not active (according to metatranscriptomics).
+* Overall, the metatranscriptomics is more diverse, while the metagenomics is largely dominated by cyanobacteria...
+* I will compare *alpha* diversity between both datasets
+* Maybe also Mantel tests to compare both data matrices.
+
+```{r metag vs metat, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
+knitr::include_graphics("../figures/metagenome_vs_metatranscriptome.png")
+```
+
+
+
+##Metagenomic_Champlain_short_term
+* I've ran the pipeline of these samples (they are all St1 according to Nicholas).
+* Species were grouped by genera to simplify it (e.g.: There were a lot of different *Flavobacterium* species)
+* Altough this dataset is not comparable to the metatranscriptome directly, if I extrapolate it seems like there is little correlation btwn metat and metag.: This is pretty cool!
+
+
+```{r Metagenomic_Champlain_long_term_genera_barplot, warning = F, message = F,out.width=1050,out.height=800,fig.align='center',echo=F}
+#running the barplot graph
+knitr::include_graphics("../figures/Metagenomic_Champlain_short_genera_barplot.png")
+```
+
+
+
 
 #To do (lab meeting Oct 19th):
-• What is *sp. PCC*?  
+* What is *sp. PCC*?  
 **Bug in the SAMSA2 python annotation scripts. Fixed**
 
-• Check the *Microcystis* in the database and in the list of annotated genes?  
+* Check the *Microcystis* in the database and in the list of annotated genes?  
 **There are 67425 Microcystis gene products (63.5k are for M. aeruginosa) in the dataset**  
 **This is a very good representation**  
 
-• Get a *Microcystis* protein set from Olga?  
+* Get a *Microcystis* protein set from Olga?  
 **Done, but not sure how usefull, given that it is actually well represented in the dataset**
 
-• Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)?   
+* Check illumina primer/adaptor sequences (find them on nanuq), if they may cause contamination (esp. for the 09-15 samples)?   
 **Done. Refiltered samples as there was indeed some contamination**  
 **Didn't change results very much**  
 
-• Check sequence similarity bwtn the 2 fecal species proteins  
+* Check sequence similarity bwtn the 2 fecal species proteins  
 **done. There are almost the same...**
   
-• Theoretically, you should get a could corellation bwtn annotation to Rubisco + Photosystem and chlorophyll content. I should verify this (simple correlation or can also perfom a more complex RDA)  
+* Theoretically, you should get a could corellation bwtn annotation to Rubisco + Photosystem and chlorophyll content. I should verify this (simple correlation or can also perfom a more complex RDA)  
 **Not done yet, but I suspect correlation is not great... Why: I don't know**
 
-• Check annotatin at the other three functionnal levels (right know, I only look at the first one...)   
+* Check annotatin at the other three functionnal levels (right know, I only look at the first one...)   
 **Done at all 4 levels**  
 
-• [eggnog](http://eggnogdb.embl.de/) annotation
+* [eggnog](http://eggnogdb.embl.de/) annotation
 **Not done** 
 
+* I can do a PCA to look at sample clustering based on communities  
+**Done using phyloseq (Sept 15th samples were removed because they skew the ordinations so much...)**    
 
-• I can do a PCA to look at sample clustering based on communities  
-**Done using phyloseq (Sept 15th samples were removed because they skew the ordinations so much...)**  
-
-• I can do an RDA to see how certain samples may correlate with environmental data  
+* I can do an RDA to see how certain samples may correlate with environmental data  
 **Not done, as environmental variables are being updated now**
 
-• Look at alpha + beta diversity  
-**Not done**
+* Look at alpha + beta diversity  
+**alpha done: not much going on**
+
+* metagenome corellated with metatranscriptome
+**In progress: this is probably the most promising analysis**  
+Cehck oceans metag vs . metat papers for ideas/references
+
+* fold changes for functions...
+**maybe but not super exciting**
 
 
-&nbsp;  
-&nbsp;  
-&nbsp;  
-&nbsp;  
-
-
-
-
--metagenome corellated with metatranscriptome
--microcystin operon expression
--fold changes for functions...
--oceans metag vs . metat papers...
 
 
