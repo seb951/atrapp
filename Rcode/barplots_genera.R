@@ -170,7 +170,7 @@ dev.off()
 
 
 
-#save
+#save (with replicated already merged)
 write.table(all_spp_m_ggplot_top12.replicates_merged,"results/all_spp_m_ggplot_top12_metatranscriptome_genera",row.names = F, col.names = T, quote = F)
 
 

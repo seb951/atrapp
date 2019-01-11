@@ -92,7 +92,7 @@ all_spp_m_ggplot_top12$names = paste(temp3, " (",temp1," ",temp2,")",sep = "")
 
 #plot
 x = colorRampPalette(brewer.pal(12,"Paired"))
-p1=ggplot() + labs(title = "Lake Champlain - cyanotoxic genes",fill = "Gene names (species)") +
+p_cyano=ggplot() + labs(title = "Lake Champlain - cyanotoxic genes",fill = "Gene names (species)") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = samples, fill = names),
@@ -101,13 +101,13 @@ p1=ggplot() + labs(title = "Lake Champlain - cyanotoxic genes",fill = "Gene name
 
 #PDF (dimensions in inches)
 dev.new(width=10, height=8,noRStudioGD = TRUE)
-p1 + facet_grid(rows=vars(locations_f))
+p_cyano + facet_grid(rows=vars(locations_f))
 dev.print(device=pdf,"figures/Champlain_cyano_barplot.pdf", onefile=FALSE)
 dev.off()
 
 #PNG
 png("figures/Champlain_cyano_barplot.png",width=10, res =400,height=8,units= 'in')
-p1 + facet_grid(rows=vars(locations_f))
+p_cyano + facet_grid(rows=vars(locations_f))
 dev.off()
 
 

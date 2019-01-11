@@ -11,6 +11,8 @@ library(lubridate)
 
 system("ls -1 results/Short_time_course_Lac_Champlain/org_results/*RefSeq_annot_organism.tsv >all.tsv")
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
+#remove the sample # 20 "virus"
+all.tsv = as.data.frame(all.tsv[-20,],stringsAsFactors = F)
 all_spp = NULL
 dates = NULL
 locations = NULL
@@ -19,7 +21,7 @@ indexes = NULL
 #first loop is to subset the major species (over 5%)
 for(i in 1:nrow(all.tsv))
 {
-refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
+  refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
 #all_spp = c(all_spp,refseq.all[1:25,3]) #keep only top 10
 #all_spp_five = c(all_spp_five,refseq.all[refseq.all[,1]>2,3]) #keep only the ones that are at more than 5%
 #simplify by genus
@@ -68,9 +70,9 @@ for(i in 1:nrow(all.tsv))
 }
 
 #create your ggplot object
-all_spp_m_ggplot = data.frame(unlist(all_spp_m[,2:24]))
+all_spp_m_ggplot = data.frame(unlist(all_spp_m[,2:23]))
 temp = all_spp_m_ggplot
-all_spp_m_ggplot[,2] = rep(all_spp_m[,1],23)
+all_spp_m_ggplot[,2] = rep(all_spp_m[,1],22)
 all_spp_m_ggplot[,3] = dmy(dates)
 all_spp_m_ggplot[,4] = locations
 all_spp_m_ggplot[,5] = factor(all_spp_m_ggplot[,4], levels=c('st1'))

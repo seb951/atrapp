@@ -233,13 +233,14 @@ knitr::include_graphics("../figures/alpha.png")
 ##Cyanotoxic bacteria
 * Looking at the expression of 342 cyanotoxic genes (as Identified by Olga).
 * Cyanotoxic genes represent ~1% of all genes expressed (Note that graph below depicts total counts).
+* I grouped genes together according to their name.
 * Cyanotoxic genes rise similary to what was identified in metatranscriptomics.
 ```{r cyanotoxic, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
 knitr::include_graphics("../figures/Champlain_cyano_barplot.png")
 ```
 
 ##Metagenomic_Champlain_short_term
-* I've ran the pipeline on these samples (they are all St1 according to Nicholas).
+* I've ran the pipeline on these samples (they are all St1 according to Nicolas).
 * Species were grouped by genera to simplify.
 ```{r Metagenomic_Champlain_short_genera_barplot, warning = F, message = F,out.width=1050,out.height=800,fig.align='center',echo=F}
 #running the barplot graph
@@ -248,9 +249,8 @@ knitr::include_graphics("../figures/Metagenomic_Champlain_short_genera_barplot.p
 
 ##Metagenomics and metatranscriptomics tell a different story.
 * First, you can see the difference in the bloom composition between the 2015 and 2016 metagenomics datasets (first 2 panels). In 2015, it was dominated by *Microcystis*. In 2016, it was dominated by *Dolichospermum*, but in September *Microcystis* start to show up and dominate.
-* In 2016, for which we had metagenomics vs metatranscriptomics at similar dates, the *Dolichospermum* story is similar, but the *Microcystis* are almost absent from metatranscriptomics... This means that they are there (according to metagenomics), but not active (according to metatranscriptomics).
+* In 2016, for which we had metagenomics vs metatranscriptomics at similar dates, the *Dolichospermum* story is similar, but the *Microcystis* are almost absent from metatranscriptomics. This means that they are there (according to metagenomics), but not active (according to metatranscriptomics).
 * Overall, the metatranscriptomics is more diverse, while the metagenomics is largely dominated by cyanobacteria. I will compare *alpha* diversity between both datasets to explicitely test that.
-* I'd like to do a Mantel test to compare both data matrices.
 
 ```{r metag vs metat, warning = F, message = F,out.width=1000,out.height=800,fig.align='center',echo=F}
 knitr::include_graphics("../figures/metagenome_vs_metatranscriptome.png")
