@@ -301,10 +301,25 @@ knitr::include_graphics("../figures/Metagenomic_Champlain_long_term_genera_barpl
 
 * metagenome corellated with metatranscriptome
 **In progress: this is probably the most promising analysis**  
-Cehck oceans metag vs . metat papers for ideas/references
+Check oceans metag vs . metat papers for ideas/references
 
 * fold changes for functions...
 **maybe but not super exciting**
+
+
+
+#Notes from Jan 11th 2019 lab meeting
+* Rpackage taxize database for species names synonyms
+
+* Check toxin results and how it correlates with the metat. expression
+
+* check expression of Dolicho and the metat. cyanotoxin expression (decrease in Dolicho around sept 15th: do we see more toxin production then...)
+
+* phages are one of the driver of blooms (phage kills dolicho, releases toxin in the water...)
+
+* metaphlan2
+
+
 
 
 

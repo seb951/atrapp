@@ -8,7 +8,9 @@ library(RColorBrewer)
 library(dplyr)
 
 system("ls -1 results/cyano/func_results/*annot_function.tsv >all.tsv")
+system("ls -1 results/org_results/*RefSeq_annot_organism.tsv >all_species.tsv") #all annot. species
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
+all_species = read.table("all_species.tsv", stringsAsFactors = F)
 all_spp = NULL
 samples = NULL
 locations = NULL
@@ -41,6 +43,10 @@ all_spp_m = data.frame(unique(sort(unlist(all_spp))),stringsAsFactors = F)
 for(i in 1:nrow(all.tsv))
 {
   refseq.all = read.table(all.tsv[i,1],sep = "\t",stringsAsFactors = F)
+  refseq.all.all = read.table(all_species[i,1],sep = "\t",stringsAsFactors = F)
+  
+  #reads are normalized as cyano reads annotated per million annotations.
+  refseq.all[,2] = refseq.all[,2]/sum(refseq.all.all[,2])*1000000
   
   #unknowns
   refseq.all[refseq.all[,3] == "Not",3] = c("unknown unknown unknown unknown")
@@ -54,9 +60,9 @@ for(i in 1:nrow(all.tsv))
   
   for(j in 1:nrow(all_spp_m))
   {
-    temp = refseq.all[refseq.all[,1] == all_spp_m[j,1],3]
-    if(length(temp$V2) == 1) all_spp_m[j,i+1] = temp
-    if(length(temp$V2) == 0) all_spp_m[j,i+1] = 0
+    temp = refseq.all[refseq.all[,1] == all_spp_m[j,1],3] #fraction (2) or total count (3)
+    if(length(temp$V2) == 1) all_spp_m[j,i+1] = temp #fraction (V2) or total count (V1)
+    if(length(temp$V2) == 0) all_spp_m[j,i+1] = 0 #fraction (V2) or total count (V1)
      }
   #get a proper shortname for the graph
   replicate = substring(strsplit(all.tsv[i,1],split = "WatPhotz_")[[1]][2],4,4)
@@ -96,7 +102,7 @@ p_cyano=ggplot() + labs(title = "Lake Champlain - cyanotoxic genes",fill = "Gene
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
   geom_bar(aes(y = fraction, x = samples, fill = names),
-           data = all_spp_m_ggplot_top12,stat="identity") + ylab("Counts of annotated cyanotoxic genes")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+           data = all_spp_m_ggplot_top12,stat="identity") + ylab("Counts of annotated cyanotoxic genes (per M annotated reads)")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
 #PDF (dimensions in inches)

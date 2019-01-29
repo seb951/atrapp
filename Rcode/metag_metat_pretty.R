@@ -144,16 +144,22 @@ all_spp_m_ggplot_top12$names = paste(temp3, " (",temp1," ",temp2,")",sep = "")
 all_spp_m_ggplot_top12$names = temp3
 
 #plot
+all_spp_m_ggplot_top12_small = all_spp_m_ggplot_top12[1:1170,]
+all_spp_m_ggplot_top12_small = all_spp_m_ggplot_top12_small[all_spp_m_ggplot_top12_small$samples!="20160915_a",]
+all_spp_m_ggplot_top12_small = all_spp_m_ggplot_top12_small[all_spp_m_ggplot_top12_small$samples!="20160915_b",]
+all_spp_m_ggplot_top12_small = all_spp_m_ggplot_top12_small[all_spp_m_ggplot_top12_small$samples!="20160915_c",]
+
 x = colorRampPalette(brewer.pal(9,"Set1"))
-p_cyano=ggplot() + labs(title = "Lake Champlain - cyanotoxic genes",fill = "Gene names (species)") +
+
+p_cyano=ggplot() + labs(title = "Lake Champlain - cyanotoxic genes",fill = "Gene names") +
   theme_bw() + 
   theme(plot.title = element_text(hjust = 0.5, size=14, face="bold")) + scale_fill_manual(values = x(length(all_spp_five_m))) +
-  geom_bar(aes(y = fraction, x = dates_c, fill = names),
-           data = all_spp_m_ggplot_top12,stat="identity") + ylab("Counts of annotated cyanotoxic genes")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  geom_bar(aes(y = fraction, x = samples, fill = names),
+           data = all_spp_m_ggplot_top12_small,stat="identity") + ylab("Counts of annotated cyanotoxic genes")  + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
 
 #PDF (dimensions in inches)
 dev.new(width=10, height=5.3333,noRStudioGD = TRUE)
 p_cyano
-dev.print(device=pdf,"figures/Champlain_cyano_barplot_pretty.pdf", onefile=FALSE)
+dev.print(device=pdf,"~/Desktop/Champlain_cyano_barplot_pretty.pdf", onefile=FALSE)
 dev.off()
