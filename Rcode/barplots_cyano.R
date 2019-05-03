@@ -7,11 +7,12 @@ library(gridExtra)
 library(RColorBrewer)
 library(dplyr)
 
-system("ls -1 results/cyano/func_results/*annot_function.tsv >all.tsv")
+system("ls -1 results/cyano_results/func_results/*annot_function.tsv >all.tsv")
 system("ls -1 results/org_results/*RefSeq_annot_organism.tsv >all_species.tsv") #all annot. species
 all.tsv = read.table("all.tsv", stringsAsFactors = F)
 all_species = read.table("all_species.tsv", stringsAsFactors = F)
 all_spp = NULL
+dates = NULL
 samples = NULL
 locations = NULL
 all_spp_five = NULL
@@ -70,8 +71,10 @@ for(i in 1:nrow(all.tsv))
   date = strsplit(all.tsv[i,1],split = "-")[[1]][2]
   samples = c(samples,rep(paste(date,replicate,sep = "_"),nrow(all_spp_m)))
   locations = c(locations,rep(location,nrow(all_spp_m)))
+  dates = c(dates, date)
 }
 
+dates = ymd(dates)
 all_spp_m_ggplot = data.frame(unlist(all_spp_m[,2:66]))
 all_spp_m_ggplot[,2] = rep(all_spp_m[,1],65)
 all_spp_m_ggplot[,3] = samples

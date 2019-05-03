@@ -1,0 +1,12 @@
+name: barplots_filters_shiny
+title: barplots_filters_shiny
+username:
+account: sebastien
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 726920
+bundleId: 1887554
+url: https://sebastien.shinyapps.io/barplots_filters_shiny/
+when: 1550691471.6562
+asMultiple: FALSE
+asStatic: FALSE
