@@ -2,7 +2,7 @@
 title: "Poster for Evolution meeting (Providence, R. I. June 21-25, 2019)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
-  html_document:
+  pdf_document:
 csl: ../references/bibliography/nature.csl
 bibliography: ../references/bibliography/biblio.bib
 ---
@@ -28,7 +28,7 @@ Jesse B. Shapiro^2^
 
 
 ## Abstract  
-Specific environmental conditions, such as elevated levels of nutrients from human activities, warmer temperatures, still water, and sunlight promote the growth of cyanobacteria, which at high density, form harmfull algae blooms. Each summer, cyanobacteria make an appearance in Lake Champlain and pose health risks to humans and animals due to the production of cyanotoxins. Here, we used a metatranscriptomics approach that targets genes expressed in the water to identify changes in the bacterial community during the summer. At the height of the bloom (mid-September), chlorophyll A increased by nearly 100 fold and communities were dominated by the cyanobacteria *Dolichospermum circinale* and to a lesser extent *Microcystis aeruginosa*. 7,000 SNPs (10% of all SNPs) showed changes in allele frequencies in *Dolichospermum* from the begining of the bloom to the end in at least one of the sampling site, showing a highly dynamic evolution of the system. 19 genes showed repeatable patterns in all three sampling sites. These represent good candidates to predict bloom in the future.
+Specific environmental conditions, such as elevated levels of nutrients from human activities, warmer temperatures, still water, and sunlight promote the growth of cyanobacteria, which at high density, form harmfull algae blooms. Each summer, cyanobacteria make an appearance in Lake Champlain and pose health risks to humans and animals due to the production of cyanotoxins. Here, we used a metatranscriptomics approach that targets genes expressed in the water to identify changes in the bacterial community during the summer. At the height of the bloom (mid-September), chlorophyll A increased by nearly 100 fold and communities were dominated by the cyanobacteria *Dolichospermum circinale* and to a lesser extent *Microcystis aeruginosa*. 7,000 *Dolichospermum* SNPs (10% of all SNPs) showed changes in allele frequencies in at least one of the sampling site, from the begining of the bloom to the end of the season, showing a highly dynamic evolution of the system. 19 genes showed repeatable patterns of evolution in all three sampling sites. These represent good candidates that may help to predict blooms in the future.
 
 ## Introduction
 * Specific environmental conditions, such as elevated levels of nutrients from human activities, warmer temperatures, still water, and sunlight promote the growth of cyanobacteria, which at high density, form harmfull algae blooms.
@@ -76,7 +76,7 @@ Specific environmental conditions, such as elevated levels of nutrients from hum
 &nbsp;
 &nbsp;
 
-![](../results/dolicho/figures/Champlain_genera_barplot.png){width=900px}
+![](../results/dolicho/figures/Champlain_genera_barplot.png){width=600px}
 
 &nbsp;
 
@@ -90,7 +90,7 @@ Specific environmental conditions, such as elevated levels of nutrients from hum
 &nbsp;
 &nbsp;
 
-![](../results/dolicho/figures/venn_figure.png){width=900px}
+![](../results/dolicho/figures/venn_figure.png){width=500px}
 &nbsp;
 
 **Figure 4: A. Over 150k SNPs identified (<50% missing data: 72k). Venn diagram: Number of SNPs (genes) showing significant changes in allele frequency from beginning (June 1st) to end of bloom (October 6th). B. Example of a significant SNP in both St1, St2 (logistic regressions) and PRM (linear regression) sites (Total: 22 SNPs, 19 SNPs). C. Gene ontology groups for candidates (no significant over-represented groups compared to reference transcriptome)**
