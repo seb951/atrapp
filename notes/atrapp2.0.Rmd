@@ -20,10 +20,12 @@ Nathalie Fortin^3^
 Charles W. Greer^4^
 Jesse B. Shapiro^2^
 
-^1^Energy Mining and Environment, National Research Council Canada, Montreal, QC, Canada  
-^2^  
-^3^Institut de Recherche en Biologie Végétale, Université de Montréal, Montréal, Québec, Canada  
-^4^Department of Biological Sciences, Université de Montréal, Montreal, Quebec, H3T 1J4, Canada    
+
+^1^Institut de Recherche en Biologie Végétale, Université de Montréal, Montréal, Québec, Canada  
+^2^Department of Biological Sciences, Université de Montréal, Montreal, Quebec, H3T 1J4, Canada    
+^3^  
+^4^Energy Mining and Environment, National Research Council Canada, Montreal, QC, Canada  
+
 
 ## Abstract  
 Specific environmental conditions, such as elevated levels of nutrients from human activities, warmer temperatures, still water, and sunlight promote the growth of cyanobacteria, which at high density, form harmfull algae blooms. Each summer, cyanobacteria make an appearance in Lake Champlain and pose health risks to humans and animals due to the production of cyanotoxins. Here, we used a metatranscriptomics approach that targets genes expressed in the water to identify changes in the bacterial community during the summer. At the height of the bloom (mid-September) were chlorophyll A increased by nearly 100 fold, communities were dominated by the cyanobacteria *Dolichospermum circinale* and to a lesser extent *Microcystis aeruginosa*. XYZ Genes show changes in allele frequencies for *Dolichospermum* from the begining of the bloom to the end in at least one of the sampling site, showing a highly dynamic evolution of the system. 19 genes showed repeatable patterns in all three sampling sites. These represent good candidates to predict bloom in the future.
@@ -101,7 +103,7 @@ Specific environmental conditions, such as elevated levels of nutrients from hum
 
 ## Conclusions
 * Metatranscriptomics can identify cyanobacteria known to cause blooms (*Dolichospermum circinale*, *Microcystis aeruginosa*).
-* XYZ Genes show changes in allele frequencies during the bloom in at least one of the sampling site, showing a highly dynamic evolution of the system. 19 genes show repeatable changes in allele frequencies in all three sampling sites. These represent good candidates to predict bloom.
+* ~7,000 SNPs (10% of all SNPs) show changes in allele frequencies during the bloom in at least one of the sampling site, showing a highly dynamic evolution of the system. 19 genes show repeatable changes in allele frequencies in all three sampling sites. These represent good candidates to predict bloom.
 * Further sampling and sequencing in progress in other lakes will help to confirm patterns observed here.
 
 
