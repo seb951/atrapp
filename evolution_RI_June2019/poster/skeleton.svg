@@ -11302,12 +11302,12 @@
      id="namedview4"
      showgrid="false"
      inkscape:zoom="0.36"
-     inkscape:cx="1192.6528"
-     inkscape:cy="2590.2848"
+     inkscape:cx="2081.5417"
+     inkscape:cy="812.50702"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g20"
+     inkscape:current-layer="g10"
      units="in"
      showguides="false"><inkscape:grid
        type="xygrid"
@@ -20914,15 +20914,15 @@
 <text
            xml:space="preserve"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.81999969px;line-height:125%;font-family:'xkcd Script';-inkscape-font-specification:'xkcd Script';text-align:start;text-anchor:start;opacity:1;fill:#000000;fill-opacity:0.90952376;stroke:none;stroke-width:3;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           x="1161.6066"
-           y="-34.45015"
+           x="1311.6066"
+           y="-32.95015"
            id="text6209"
            transform="scale(1,-1)"><tspan
              sodipodi:role="line"
              id="tspan6207"
-             x="1161.6066"
-             y="-34.45015"
-             style="font-size:47.81999969px;fill:#ffffff;stroke-width:3">Things we find in the lake (i.e. cool stuff)</tspan></text>
+             x="1311.6066"
+             y="-32.95015"
+             style="font-size:47.81999969px;fill:#ffffff;stroke-width:3">Things we find in the lake</tspan></text>
 </g><text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:72px;line-height:125%;font-family:'xkcd Script';-inkscape-font-specification:'xkcd Script';text-align:end;text-anchor:end;opacity:1;fill:#ffffff;fill-opacity:0.90952376;stroke:#808000;stroke-width:3;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
