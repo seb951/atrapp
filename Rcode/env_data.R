@@ -78,11 +78,10 @@ chl = chl[!is.na(chl[,1]),]
 
 dev.new(width=6, height=6,noRStudioGD = TRUE)
 #graph parameters
-p = ggplot() + labs(title = "Lake Champlain") +
+p = ggplot() + theme(title = element_text(size = 26), axis.text.x = element_text(size = 16),axis.text.y = element_text(size = 16),axis.title =element_text(size = 26)) +
   geom_point(aes(x = date, y = values),na.rm=T,data = chl,col = "#808000ff",size = 5) +
   geom_line(aes(x = date, y = values),na.rm=T,data = chl,col = "#808000ff",size = 2) +
-  ylab("Chlorophyll A (ug/L)") +
-  xlab("Sampling date") +
+  labs(x = "Sampling date", y = "Chlorophyll A (ug/L)") +
   scale_y_continuous(trans='log10') +
   scale_x_date(date_breaks = "2 week" , date_labels = "%b %d")
 
